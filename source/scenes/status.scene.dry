@@ -40,7 +40,7 @@ Popular Front enthusiasm: [+ popular_front_enthusiasm : enthusiasm +]
 
 Chamber of Deputies composition:
 
-<span style="color: var(--sfio);">**SFIO**</span>: [+ sfio_r +]% <span style="color: var(--prrrs);">**PRRRS**</span>: [+ prrrs_r +]% <span style="color: var(--pcf);">**PCF**</span>: [+ pcf_r +]% <span style="color: var(--usr);">**USR + Misc. Left**</span>: [+ usr_r +]% <span style="color: var(--ad);">**AD**</span>: [+ ad_r +]% <span style="color: var(--pdp);">**PDP + Misc. Right**</span>: [+ pdp_r +]% <span style="color: var(--fr);">**FR**</span>: [+ fr_r +]%
+<span style="color: var(--sfio);">**SFIO**</span>: [+ sfio_r +]% <span style="color: var(--prrrs);">**PRRRS**</span>: [+ prrrs_r +]% <span style="color: var(--pcf);">**PCF**</span>: [+ pcf_r +]% <span style="color: var(--usr);">**USR + Misc. Left**</span>: [+ usr_r +]% <span style="color: var(--ard);">**AD**</span>: [+ ad_r +]% <span style="color: var(--pdp);">**PDP + Misc. Right**</span>: [+ pdp_r +]% <span style="color: var(--fr);">**FR**</span>: [+ fr_r +]%
 
 [? if sfio_in_government = 1: Budget: [+ budget +]  ?]
 
