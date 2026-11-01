@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&family=Gelasio:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Neuton:ital,wght@0,200;0,300;0,400;0,700;0,800;1,400&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 body {
-  font-family: "Minion Pro", Georgia, serif;
   --bg-color: #f3f3e3;
   --border-color: #000;
   --content-bg-color: #f3f3f3;
@@ -14,6 +12,7 @@ body {
   --tab-hover-color: #ececec;
   --card-border-color: #ccc; 
   --card-bg-color: #ddd; 
+  font-family: "Minion Pro", Georgia, serif;
   background-color: var(--bg-color);
   padding: 0;
   line-height: 155%;
@@ -93,17 +92,6 @@ header h2:before {
   padding: 0 0.3em 0 0;
 }
 
-.button-image {
-    vertical-align:-0.25em;
-}
-
-.icon-button {
-    padding-top: 0.5em;
-    padding-bottom: 0.25em;
-    padding-left: 0.25em;
-    padding-right: 0.25em;
-}
-
 #content #read-marker {
   border: none;
   border-top: 1px solid var(--border-color);
@@ -111,7 +99,6 @@ header h2:before {
   width: 20%;
   clear: left;
 }
-
 #content h1:first-child {
   margin-top: 0.5em;
 }
@@ -149,80 +136,26 @@ ul.choices {
   border-radius: 4px;
   clear: left;
 }
-
 ul.choices li {
-  font-size: 1em;
   border-bottom: 1px solid #876;
   padding: 0.5em;
-  background: none;
-  transition: background 0.3s;
-  position: relative;
-  overflow: visible;
 }
-
-ul.choices li .subtitle:has(> img) {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 12px;
-}
-
-ul.choices li .subtitle:has(> img) > img {
-    flex-shrink: 0;
-    display: block;
-    margin: 0 !important;
-    width: 100px !important;
-    height: 125px !important;
-    object-fit: cover;
-    border: 3px solid #000;
-}
-
-ul.choices li .subtitle:has(> img) > span {
-  flex: 1;
-  min-width: 0;
-}
-
-ul.choices li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 0;
-  background: var(--link-hover-color);
-  z-index: 0;
-}
-
-ul.choices li:hover::before {
-  width: 100%;
-}
-
 ul.choices li div.subtitle {
   margin-left: 2em;
   font-style: italic;
-  position: relative;
-  z-index: 1;
 }
-
 ul.choices li.unavailable {
   color: var(--unavailable-color);
   background-color: var(--unavailable-bg-color) !important;
   cursor: default !important;
 }
-
 ul.choices li:hover {
+  background-color: var(--link-hover-color);
   cursor: pointer;
 }
-
-ul.choices li > * {
-  position: relative;
-  z-index: 1;
-}
-
 ul.choices li:last-child {
   border-bottom: none;
 }
-
 ul.choices a {
   text-decoration: none;
 }
@@ -235,33 +168,9 @@ blockquote.attribution {
 blockquote + blockquote.attribution {
   margin-top: -1em;
 }
-img.inline-img {
-  display: inline !important;
-  height: 1.2em !important;
-  width: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-  vertical-align: middle !important;
-  margin: 0 0.2em !important;
-  border-radius: 2px;
-}
-img.inline-img.small {
-  height: 0.9em !important;
-}
-img.inline-img.medium {
-  height: 1.5em !important;
-}
-img.inline-img.large {
-  height: 2em !important;
-}
-img.inline-img.icon {
-  height: 1em !important;
-  margin: 0 0.1em !important;
-}
 /* This is mostly copied from undum. */
 #mid_panel {
   margin: 0 16rem;
-  margin-right: 13.5em;
 }
 #page {
   margin: 0 auto;
@@ -271,13 +180,13 @@ img.inline-img.icon {
   position: absolute;
   width: 100%;
   max-width: 69em;
-  left: 7em;
-  right: 5em;
+  left: 0;
+  right: 0;
   margin: 0 auto;
 }
 .tools {
   padding: 0.6em;
-  width: 14.5rem;
+  width: 14rem;
   color: var(--text-color);
   background-color: var(--content-bg-color);
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
@@ -289,8 +198,6 @@ img.inline-img.icon {
 .tools.right {
   float: right;
   right: 0.4em;
-  background-color: #2b2b2b;
-  padding: 0.5em;
 }
 #qualities {
   text-indent: 0;
@@ -312,71 +219,7 @@ img.inline-img.icon {
   font-weight: normal;
 }
 
-.start-scene .choices li {
-    text-align: center;
-    background-image: radial-gradient(70% 76%, rgba(248, 245, 235, 0.94), rgba(248, 245, 235, 0.6) 50%, rgba(248, 245, 235, 0) 75%);
-    backdrop-filter: none;
-    text-shadow: 0.2px 1px 1px #ccc;
-}
 
-.start-scene .choices a {
-  color: var (--text-color);
-}
-
-.start-scene .choices {
-  background: url("img/final_flag.svg") center 50% / cover no-repeat;;
-}
-
-/* news sidebar (right-hand "newspaper" column), thanks to Irridalyst for this. */
-#news {
-  text-indent: 0;
-  line-height: 1.3em;
-  font-size: 0.95em;
-  text-align: left;
-  background-color: var(--content-bg-color);
-  padding: 1.5em 1.2em;
-}
-#news p {
-  text-indent: 0;
-  text-align: left;
-}
-#news h1 {
-  font-family: "Minion Pro", Georgia, serif;
-  font-size: 1.5em;
-  font-weight: normal;
-  text-align: left;
-  text-transform: none;
-  letter-spacing: 0.02em;
-  line-height: 1.3em;
-  margin: 0 0 0.75em 0;
-  color: var(--text-color);
-}
-#news strong {
-  color: inherit;
-}
-
-#news_sidebar .news-masthead {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: 0 auto 0.75em auto;
-}
-
-#news_sidebar .news-emblem {
-    display: block;
-    width: 40px;
-    height: auto;
-    margin: 1em auto 0 auto;
-}
-
-#news_sidebar {
-    float: right;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-/* tabs */
 /* tabs */
 .tab_container {
     background-color: var(--tab-bg-color);
@@ -396,57 +239,6 @@ img.inline-img.icon {
 .tab_button.active {
     background-color: var(--content-bg-color);
 }
-.mytooltip {
-  position: relative;
-  cursor: pointer;
-  /* tooltips from originalname/Dynamic Dev, edited by Communist45*/
-  background-color: transparent;
-  padding: 2px 1px;
-}
-.mytooltip:hover { background-color: rgb(100, 140, 220); }
-
-.mytooltip .mytooltiptext {
-  position: fixed;
-  z-index: 999999;
-  width: 130px;
-  background: #f3f3e3;
-  color: #3b1f0a;
-  text-align: left;
-  border-radius: 20px;
-  padding: 12px 14px;
-  opacity: 0;
-  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
-  border: 2px solid #c00000;
-  outline: 2px solid #D3C24D;
-  pointer-events: none;
-  font-size: 14px !important;
-  line-height: 1.5em !important;
-  font-weight: 500 !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transform: translateY(5px);
-  text-align: center;
-}
-.mytooltip:hover .mytooltiptext { opacity: 1; }
-.mytooltip .mytooltiptext img { display: block; margin: 0 auto 4px auto; max-width: 90%; height: auto; }
-
-.mytooltip .mytooltiptext {
-  bottom: auto;
-  top: calc(var(--mouse-y, 0px) - 20px);
-  left: calc(var(--mouse-x, 0px));
-  transform: translate(-50%, -100%);
-}
-
-body.dark-mode .mytooltip:hover {
-    background-color: rgb(60, 90, 160);
-}
-
-body.dark-mode .mytooltip .mytooltiptext {
-    background: #171515;
-    color: #e0e0e0;
-    border: 2px solid #c00000;
-    outline: 2px solid #D3C24D;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-}
 .tab_button:hover {
     background-color: var(--tab-hover-color);
 }
@@ -462,14 +254,8 @@ body.dark-mode .mytooltip .mytooltiptext {
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 2;
+    z-index: 5;
     overflow: scroll;
-}
-.options h3 {
-    text-align: center;
-}
-.music_player {
-    text-align: left;
 }
 .options {
     text-align: right;
@@ -526,189 +312,16 @@ ul.decks, ul.hand, ul.pinned-cards {
   padding-left: 0;
 }
 
-:root {
-  --kpd-colour: #700000;
-  --spd-colour: #c00000;
-  --sapd-colour: #9B0000;
-  --uspd-colour: #D47B9B;
-  --aspd-colour: #fe9e00;
-  --nlp-colour: #98c22c;
-  --ddp-colour: #D3C24D;
-  --lvp-colour: #FFCC00;
-  --z-colour: #000000;
-  --bvp-colour: #95ccc7;
-  --dvp-colour: #D5AC27;
-  --dnvp-colour: #3E88B3;
-  --dnf-colour: #003755;
-  --dap-colour: #524732;
-  --nsdap-colour: #7A3C00;
-  --i-colour: #808080;
-  --dhp-colour: #63C489;
-  --wp-colour: #CCAA7A;
-  --reichsbanner-colour: #e08979;
-  --sammlung-colour: #d4d68b;
-  --linksliberale-colour: #edd94c;
-  --pazifisten-colour: #a685a2;
-  --nationalliberale-colour: #c5f062;
-  --republikschutzer-colour: #e3c35b;
+.hand {
+
 }
 
-/* ============================================================
-   ADVISOR FACTION TIMER BAR (conjoined, centered header)
-   ============================================================ */
+.pinned-cards {
 
-/* Subtle tint to set the advisor section apart from the page bg.
-   Wraps header + ul.pinned-cards so the tint is one continuous rect.
-   Negative side margins pull the tint out to the content column edges. */
-.advisor-panel-wrap {
-    background-color: rgba(0, 0, 0, 0.035);
-    padding: 12px 24px 28px;
-    margin: -9px -28px -26px;
 }
 
-.advisor-panel-wrap .advisor-panel-head {
-    margin: 0 0 4px !important;
-}
+.deck {
 
-.advisor-panel-wrap > ul.pinned-cards {
-    margin: 0;
-}
-
-.advisor-header {
-    font-size: 1em;
-    margin-bottom: 4px;
-    color: var(--text-color);
-    text-align: center;
-    font-weight: bold;
-}
-
-.advisor-timer-conjoined {
-    display: flex;
-    width: 100%;
-    height: 16px;
-    border: 3px solid #000;
-    overflow: hidden;
-    margin-bottom: 2px;
-}
-
-.advisor-timer-segment {
-    flex: 1;
-    height: 100%;
-    background: #e0e0e0;
-    overflow: hidden;
-    position: relative;
-    --tick-bg: #000;
-    --tick-fill: #fff;
-    --divider-color: #fff;
-    --divider-width: 2px;
-}
-
-/* Divider drawn as an overlay at the right edge, doesn't affect layout, so the
-   fill's `left: 50%` actually lands at the visual center of the segment. */
-.advisor-timer-segment::before {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0;
-    right: 0;
-    width: var(--divider-width, 2px);
-    background: var(--divider-color, #000);
-    z-index: 3;
-}
-
-.advisor-timer-segment:last-child::before {
-    display: none;
-}
-
-/* Inverted: dark gray background, light fill (left two factions).
-   Black separator matches the black filled-ticks scheme on these segments.
-   Black needs to be 1px wider than the white separators to optically match
-   (white halates against dark adjacent fills). */
-.advisor-timer-segment.invert {
-    background: #6a6a6a;
-    --tick-bg: #fff;
-    --tick-fill: #000;
-    /* No tick shift, keeps the visible tick within a small fill centered on the
-       fill's actual mid-point, so the fill reads as centered in the segment. */
-    --tick-bg-shift: 0px;
-    --tick-fill-shift: 0px;
-}
-
-.advisor-timer-segment:not(.invert) {
-    --tick-bg-shift: 0px;
-    --tick-fill-shift: 0px;
-}
-
-/* Shared 7-tick gradient, color is configurable via --tick-color.
-   White ticks get a small left shift via --shift to keep them visually balanced
-   when adjacent to a dark divider (white halates against dark; black does not). */
-.advisor-timer-segment::after,
-.advisor-timer-fill::before {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0;
-    background: linear-gradient(to right,
-        transparent calc(12.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(12.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(12.5% + var(--shift, 0px) + 1px),
-        transparent calc(12.5% + var(--shift, 0px) + 1px), transparent calc(25% + var(--shift, 0px) - 1px), var(--tick-color) calc(25% + var(--shift, 0px) - 1px), var(--tick-color) calc(25% + var(--shift, 0px) + 1px),
-        transparent calc(25% + var(--shift, 0px) + 1px), transparent calc(37.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(37.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(37.5% + var(--shift, 0px) + 1px),
-        transparent calc(37.5% + var(--shift, 0px) + 1px), transparent calc(50% + var(--shift, 0px) - 1px), var(--tick-color) calc(50% + var(--shift, 0px) - 1px), var(--tick-color) calc(50% + var(--shift, 0px) + 1px),
-        transparent calc(50% + var(--shift, 0px) + 1px), transparent calc(62.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(62.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(62.5% + var(--shift, 0px) + 1px),
-        transparent calc(62.5% + var(--shift, 0px) + 1px), transparent calc(75% + var(--shift, 0px) - 1px), var(--tick-color) calc(75% + var(--shift, 0px) - 1px), var(--tick-color) calc(75% + var(--shift, 0px) + 1px),
-        transparent calc(75% + var(--shift, 0px) + 1px), transparent calc(87.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(87.5% + var(--shift, 0px) - 1px), var(--tick-color) calc(87.5% + var(--shift, 0px) + 1px),
-        transparent calc(87.5% + var(--shift, 0px) + 1px), transparent 100%);
-    pointer-events: none;
-}
-
-/* Background tick layer (visible in unfilled portion). */
-.advisor-timer-segment::after {
-    left: 0; right: 0;
-    --tick-color: var(--tick-bg);
-    --shift: var(--tick-bg-shift, 0px);
-    z-index: 1;
-}
-
-/* Fill tick layer (covers same segment-wide tick grid but clipped to fill).
-   --w is the fill percentage (numeric) set inline; scales/offsets the ::before
-   so its tick grid aligns with the segment's grid. */
-.advisor-timer-fill::before {
-    left: calc(50% - 5000% / var(--w, 100));
-    width: calc(10000% / var(--w, 100));
-    --tick-color: var(--tick-fill);
-    --shift: var(--tick-fill-shift, 0px);
-    z-index: 2;
-}
-
-.advisor-timer-fill {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    height: 100%;
-    transform: translateX(-50%);
-    transition: width 0.4s ease;
-    overflow: hidden;
-    z-index: 2;
-}
-
-.advisor-timer-labels {
-    display: flex;
-    width: 100%;
-    margin-bottom: 8px;
-    margin-left: -15px;
-}
-
-.advisor-timer-label {
-    flex: 1;
-    text-align: center;
-    font-size: 0.75em;
-    min-height: 1.2em;
-    padding: 0;
-    margin: 0;
-}
-
-.advisor-ready {
-    color: #2d7a2d;
-    font-weight: bold;
-    display: inline-block;
-    text-align: center;
 }
 
 a.card {
@@ -716,30 +329,25 @@ a.card {
   width: 120px;
   height: 150px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-  border: 8px solid var(--card-border-color);
+  border: 10px solid var(--card-border-color);
   margin-bottom: 0.5em;
   position: relative;
-  transition: transform 1s, filter 1s
 }
-
 a.card:hover {
-   z-index: 999;
-  filter: brightness(105%);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
-  transform: translate(-6px,-6px) rotate(-2deg);
+  left: -5px;
+  top: -5px;
 }
-
 div.blank-card {
   display: inline-block;
   width: 120px;
   height: 150px;
   background-color: var(--card-bg-color);
-  border: 8px solid var(--card-border-color);
+  border: 10px solid var(--card-border-color);
   margin-bottom: 0.5em;
 }
 
 .card-in-hand, .pinned-card, .deck {
-  padding: 0.3em;
   display: inline-block;
   position: relative;
   max-width: 150px;
@@ -757,31 +365,22 @@ div.blank-card {
 .card-caption {
   text-align: center;
   display: block;
-  font-size: 0.95em;
-  -webkit-text-stroke: 0.15px #685a3f;
-  color: #685a3f;
+  font-size: 1em;
 }
 
-.dark-mode .card-caption {
-  color: #ffffff;
-  -webkit-text-stroke: 0.15px #ffffff;
-}
-/* 
 .card-tooltip {
   position: absolute;
   visibility: hidden;
   width: 150px;
   max-width: 200px;
   font-size: 0.9em;
-  border-radius: 8px;
   z-index: 2;
   padding: 0.2em;
   border: 1px solid var(--border-color);
   background-color: var(--content-bg-color);
   left: 105%;
-  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
 }
-*/
+
 .card-img {
   height: 150px;
   width: 120px;
@@ -789,14 +388,15 @@ div.blank-card {
 }
 
 a.card:focus .card-tooltip, a.card:hover .card-tooltip {
-  visibility: hidden;
+  visibility: visible;
   position: absolute;
 }
+
 /* Unlike cards, face images can have different sizes. */
 .face-figure {
   /*vertical-align: top;*/
   display: inline-block;
-  border:5px solid #000000ff;
+  border: 5px solid var(--card-border-color);
   float: left;
   max-width: 35%;
   /*max-height: 180px;*/
@@ -808,44 +408,6 @@ a.card:focus .card-tooltip, a.card:hover .card-tooltip {
   /*max-width: 150px;*/
   vertical-align: bottom;
   object-fit: cover;
-}
-
-/* Leader/party-head portrait card, shown above the Decks section, credit to Irridalyst */
-.leader-card {
-  text-align: center;
-  padding: 1em 1.2em 1.5em 1.2em;
-  margin-bottom: 1em;
-  background-color: var(--content-bg-color);
-  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
-  clear: both;
-}
-.leader-card .leader-party {
-  font-size: 1.3em;
-  font-weight: normal;
-  margin: 0 0 0.75em 0;
-  padding-bottom: 0.75em;
-  border-bottom: 1px solid var(--border-color);
-}
-.leader-card .leader-abbr {
-  font-weight: bold;
-  color: #D40000;
-}
-.leader-card .leader-portrait {
-  display: block;
-  margin: 0 auto 0.5em auto;
-  width: 170px;
-  height: 210px;
-  object-fit: cover;
-  border: 5px solid var(--card-border-color);
-}
-.leader-card .leader-name {
-  font-weight: bold;
-  margin: 0;
-}
-.leader-card .leader-role {
-  color: var(--unavailable-color);
-  font-style: italic;
-  margin: 0;
 }
 
 /*
@@ -935,26 +497,6 @@ img {
       margin: 0 auto;
   }
 
-//*code from GTS*//
-.rich-image {
-    max-width: 100%
-}
-
-.rich-image-left {
-    float: left
-}
-
-.rich-image-right {
-    float: right
-}
-
-.rich-image-center {
-    display: block;
-    float: none;
-    margin-right: auto;
-    margin-left: auto
-}
-  
   /* cards are smaller on mobile */
   .card-img {
     height: 125px;
@@ -994,303 +536,130 @@ table {
     border-spacing: 0.5em;
 }
 
-/* Styles for parties */
-.seat.kpd {
-    fill: var(--kpd-colour);
+/* Styles for parties
+ * Colors come from frwiki */
+:root {
+    --pcf: #bb0000;
+    --sfio: #E9383F;
+    --prrrs: #FFABAB;
+    --usr: #FF5E4D;
+    --pdp: #00FFFF;
+    --ard: #a5c1df;
+    --fr: #24445c;
+    --psop: #dd0000; 
+    --ppf: #002654;
+    --psf: #000;
 }
-.seat.spd {
-    fill: var(--spd-colour);
+.seat.pcf {
+    fill: var(--pcf);
 }
-.seat.uspd {
-    fill: var(--uspd-colour);
-}
-.seat.ddp {
-    fill: var(--ddp-colour);
+.seat.sfio {
+    fill: var(--sfio);
     stroke: var(--border-color);
     stroke-width: 1.5px;
 }
-.seat.z {
-    fill: var(--z-colour);
+.seat.prrrs {
+    fill: var(--prrrs);
 }
-.seat.bvp {
-    fill: var(--bvp-colour);
+.seat.usr {
+    fill: var(--usr);
 }
-.seat.dvp {
-    fill: var(--dvp-colour);
+.seat.pdp {
+    fill: var(--pdp);
 }
-.seat.other {
-    fill: var(--i-colour);
+.seat.ard {
+    fill: var(--ard);
 }
-.seat.dnvp {
-    fill: var(--dnvp-colour);
+.seat.fr {
+    fill: var(--fr);
 }
-.seat.nsdap {
-    fill: var(--nsdap-colour);
+.seat.ppf {
+    fill: var(--ppf);
 }
-.seat.sapd {
-    fill: var(--sapd-colour);
+.seat.psf {
+    fill: var(--psf);
+}
+.seat.psop {
+    fill: var(--psop);
+}
+
+.box.pcf {
+    background-color: var(--pcf);
+}
+.box.sfio {
+    background-color: var(--sfio);
+    outline: 2px;
+    outline-style: solid;
+}
+.box.prrrs {
+    background-color: var(--prrrs);
+}
+.box.usr {
+    background-color: var(--usr);
+}
+.box.pdp {
+    background-color: var(--pdp);
+}
+.box.ard {
+    background-color: var(--ard);
+}
+.box.fr {
+    background-color: var(--fr);
+}
+.box.ppf {
+    background-color: var(--ppf);
+}
+.box.psf {
+    background-color: var(--psf);
+}
+.box.psop {
+    background-color: var(--psop);
+}
+
+span.pcf {
+    font-weight: bold;
+    color: var(--pcf);
+}
+span.sfio {
+    font-weight: bold;
+    color: var(--sfio);
+}
+span.prrrs {
+    font-weight: bold;
+    color: #cc5656
+    /*color: var(--prrrs);*/
+}
+span.usr {
+    font-weight: bold;
+    color: var(--usr);
+}
+span.pdp {
+    font-weight: bold;
+    /* Making the color slightly darker to be easier to read. */
+    color: #00aaaa;
+}
+span.ard {
+    font-weight: bold;
+    color: var(--ard);
+}
+span.fr {
+    font-weight: bold;
+    color: var(--fr);
+}
+span.ppf {
+    font-weight: bold;
+    color: var(--ppf);
+}
+span.psf {
+    font-weight: bold;
+    color: var(--psf);
+}
+span.psop {
+    font-weight: bold;
+    color: var(--psop);
 }
 
 .tooltip-text {
     text-decoration: underline;
     text-decoration-style: dotted;
-}
-
-.parliament-tooltip {
-    position: absolute;
-    z-index: 999999;
-    width: 120px;
-    background: #f3f3e3;
-    color: #3b1f0a;
-  /*parliament tooltip code based/from road to ithaca*/
-    text-align: center;
-    border-radius: 8px;
-    padding: 12px 14px;
-    opacity: 0;
-    transition: opacity 0.1s ease-in-out;
-    border: 2px solid #c00000;
-    outline: 2px solid #D3C24D;
-    pointer-events: none;
-    font-size: 14px;
-    line-height: 1.5em;
-    font-weight: 500;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-}
-.parliament-tooltip.visible {
-    opacity: 1;
-}
-.parliament-tooltip img {
-    display: block;
-    margin: 0 auto 4px auto;
-    max-width: 90%;
-    height: auto;
-}
-.seat.party-nothovered {
-    opacity: 0.3;
-}
-body.dark-mode .parliament-tooltip {
-    background: #171515;
-    color: #e0e0e0;
-    border: 2px solid #c00000;
-    outline: 2px solid #D3C24D;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-}
-
-.wide_tooltip-text {
-  text-decoration: underline;
-  text-decoration-style: dotted;
-}
-.wide_tooltip-wrap {
-  position: relative;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  cursor: help;
-}
-.wide_tooltip-tip {
-  position: absolute;
-  z-index: 999999;
-  width: 140px;
-  max-width: 140px;
-
-  left: 0;
-  bottom: calc(100% + 10px); 
-  transform: none; 
-
-  padding: 0.6em;
-  font-size: 0.85em;
-  text-align: center;
-  text-decoration: none;
-
-  background-color: #f3f3e3;
-  color: #3b1f0a;
-  border: 1px solid #555;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-.wide_tooltip-wrap:hover .wide_tooltip-tip,
-.wide_tooltip-wrap:focus .wide_tooltip-tip {
-  visibility: visible;
-  opacity: 1;
-}
-.wide_tooltip-tip img {
-  width: 100%;
-  display: block;
-  margin: 0 auto 6px auto;
-  border: 1px solid #DDD;
-}
-body.dark-mode .wide_tooltip-tip {
-  background-color: #151517;
-  color: #e0e0e0;
-  border: 1px solid #FFFFFF;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-}
-body.dark-mode .wide_tooltip-tip img {
-  border-color: #555; 
-}
-body.dark-mode .wide_tooltip-tip::after {
-  border: 1px solid #FFFFFF;
-}
-body.dark-mode .wide_tooltip-tip::before {
-  border: 1px solid #FFFFFF;
-}
-.wide_tooltip-wrap.drop-down .wide_tooltip-tip {
-  bottom: auto;
-  top: calc(100% + 10px);
-}
-
-/* ============================================================
-   Executive card: locked to row 2, column 3 of the hand grid
-   ============================================================ */
-ul.hand.has-executive {
-    display: grid;
-    grid-template-columns: repeat(3, 140px);
-    /* Fixed row height: 170px card (150 img + 2x10 border) + ~50px caption
-       budget (fits up to two lines). Prevents row 2 from shifting when row 1
-       cards have long, wrapping captions. */
-    grid-auto-rows: 220px;
-    column-gap: 1em;
-    row-gap: 0.5em;
-    justify-content: start;
-    justify-items: center;
-    align-items: start;
-    padding-left: 0;
-    list-style: none;
-}
-ul.hand.has-executive > li,
-ul.hand.has-executive > div.blank-card {
-    margin-right: 0 !important;
-    max-width: none;
-}
-ul.hand.has-executive > li.executive-fixed {
-    grid-column: 3;
-    grid-row: 2;
-}
-ul.hand.has-executive > li.executive-fixed a.card {
-    border-color: #b0b0b0 !important;
-}
-ul.hand.has-executive > li.executive-fixed .card-caption {
-    display: block;
-    text-align: center;
-    font-size: 1em;
-}
-
-/* ============================================================
-   Executive Affairs page (execute scene)
-   ============================================================ */
-#exec_overview {
-    max-width: 700px;
-    margin: 1em auto;
-    color: #000;
-}
-#exec_overview,
-#exec_overview * {
-    font-weight: normal;
-}
-.exec-portraits-row {
-    display: flex;
-    gap: 2em;
-    justify-content: center;
-    margin-bottom: 2em;
-}
-.exec-portrait-card {
-    text-align: center;
-    width: 200px;
-}
-.exec-portrait-frame {
-    width: 180px;
-    height: 220px;
-    margin: 0 auto;
-    border: 6px solid #000;
-    background: #f3f3f3;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.exec-portrait-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-.exec-portrait-empty {
-    font-size: 2em;
-}
-.exec-portrait-role {
-    font-style: italic;
-    margin-top: 0.5em;
-    font-size: 0.95em;
-}
-.exec-portrait-name {
-    margin-top: 0.1em;
-    font-size: 1.1em;
-}
-.exec-portrait-party {
-    font-size: 0.9em;
-    margin-top: 0.1em;
-}
-.exec-reichsbank {
-    border: 3px solid #000;
-    padding: 1em 1.5em;
-    margin: 1em auto;
-    background: rgba(255,255,255,0.6);
-    max-width: 480px;
-}
-.exec-reichsbank-title {
-    font-size: 1.3em;
-    text-align: center;
-    margin-bottom: 0.6em;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.exec-reichsbank-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.exec-reichsbank-table td {
-    padding: 0.25em 0.4em;
-    border-bottom: 1px dotted #000;
-    font-size: 0.95em;
-}
-.exec-reichsbank-table td:first-child {
-    width: 50%;
-}
-.exec-reichsbank-table td:last-child {
-    text-align: right;
-}
-.exec-priorities-text {
-    margin: 1.5em auto 0.5em auto;
-    text-align: center;
-    line-height: 1.6;
-    font-size: 1em;
-}
-.exec-meters {
-    max-width: 480px;
-    margin: 0.5em auto 1em auto;
-}
-.exec-meter-row {
-    display: grid;
-    grid-template-columns: 9em 1fr;
-    align-items: center;
-    gap: 0.8em;
-    padding: 0.45em 0;
-    font-size: 0.95em;
-}
-.exec-meter-row.exec-meter-divider {
-    border-bottom: 1px solid #000;
-}
-.exec-meter-label {
-    text-align: left;
-}
-.exec-meter-track {
-    height: 14px;
-    border: 2px solid #000;
-    background: transparent;
-    overflow: hidden;
-}
-.exec-meter-fill {
-    height: 100%;
-    transition: width 0.4s ease, background 0.4s ease;
 }
