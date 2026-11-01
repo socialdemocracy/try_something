@@ -627,6 +627,7 @@ Q.total_debt_limit = 16;
 Q.pause = 0;
 
 Q.president = "Lebrun";
+Q.president_party = "AD";
 Q.prime_minister = "Laval";
 Q.prime_minister_party = 'I';
 Q.sfio_in_government = 0;
