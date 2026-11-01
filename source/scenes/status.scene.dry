@@ -26,7 +26,7 @@ Party actions remaining: [+ party_actions_remaining +]
 
 Resources available: [+ resources +]
 
-SFIO position: [? if {!return (((Q['sfio_toleration'] || 0)) !== 0);!}: toleration  ?][? if {!return (((Q['sfio_in_government'] || 0)) !== 0);!}: in government -  ?][? if {!return ((((Q['sfio_toleration'] || 0) == 0) && ((Q['sfio_in_government'] || 0) == 0)) && ((Q['sfio_caretaker'] || 0) == 0));!}: opposition  ?][? if {!return (((Q['sfio_caretaker'] || 0)) !== 0);!}: caretaker government  ?] [? if {!return ((((Q['in_national_unity'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: National Unity government  ?][? if {!return ((((Q['in_revolutionary_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Revolutionary Front  ?][? if {!return ((((Q['in_popular_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Popular Front  ?][? if {!return ((((Q['in_left_cartel'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Left Cartel  ?][? if {!return ((((Q['in_sfio_majority'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: SFIO majority  ?][? if {!return ((((Q['in_minority_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: minority government  ?][? if {!return ((((Q['in_emergency_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: emergency government  ?]
+<span style="color: var(--sfio);">**SFIO**</span> position: [? if {!return (((Q['sfio_toleration'] || 0)) !== 0);!}: toleration  ?][? if {!return (((Q['sfio_in_government'] || 0)) !== 0);!}: in government -  ?][? if {!return ((((Q['sfio_toleration'] || 0) == 0) && ((Q['sfio_in_government'] || 0) == 0)) && ((Q['sfio_caretaker'] || 0) == 0));!}: opposition  ?][? if {!return (((Q['sfio_caretaker'] || 0)) !== 0);!}: caretaker government  ?] [? if {!return ((((Q['in_national_unity'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: National Unity government  ?][? if {!return ((((Q['in_revolutionary_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Revolutionary Front  ?][? if {!return ((((Q['in_popular_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Popular Front  ?][? if {!return ((((Q['in_left_cartel'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: Left Cartel  ?][? if {!return ((((Q['in_sfio_majority'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: SFIO majority  ?][? if {!return ((((Q['in_minority_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: minority government  ?][? if {!return ((((Q['in_emergency_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!}: emergency government  ?]
 
 Internal dissent: [+ dissent_percent : dissent +]
 
@@ -34,9 +34,9 @@ Popular Front enthusiasm: [+ popular_front_enthusiasm : enthusiasm +]
 
 = Government
 
-{!<span class="tooltip-text" title="The President of the Republic is officially the head of state and is a mostly ceremonial position.">Président de la République</span>!}: [+ president +] ([+ president_party +])
+{!<span class="tooltip-text" title="The President of the Republic is officially the head of state and is a mostly ceremonial position.">Président de la République</span>!}: [? if president_party = "AD": <span style="color: var(--ard);">[+ president +]</span> ?] ([? if president_party = "AD": <span style="color: var(--ard);">**[+ president_party +]**</span> ?])
 
-{!<span class="tooltip-text" title="President of the Council of Ministers - also called the Prime Minister, this is the head of government.">Président du Conseil</span>!}: [+ prime_minister +] ([+ prime_minister_party +])
+{!<span class="tooltip-text" title="President of the Council of Ministers - also called the Prime Minister, this is the head of government.">Président du Conseil</span>!}: [? if prime_minister_party = "I": <span style="color: #808080;">[+ president +]</span> ?] ([? if president_party = "I": <span style="color: #808080;">**[+ president_party +]**</span> ?])
 
 Chamber of Deputies composition:
 
