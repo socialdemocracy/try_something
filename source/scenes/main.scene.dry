@@ -37,7 +37,7 @@ max-cards: 5
 - #advisor
 - @shuffle_leadership_pinned
 
-@main.party
+@party
 title: Party Affairs
 is-deck: true
 card-image: img/LePopulaire.jpg
@@ -56,7 +56,7 @@ is-pinned-card: true
 @pinned_cards
 title: Pinned Cards
 
-@main.govt
+@govt
 title: Government Affairs
 view-if: {!return ((Q['time'] || 0) >= 6);!}
 is-deck: true
