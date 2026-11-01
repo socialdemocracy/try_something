@@ -1,0 +1,360 @@
+title: Election Simulation
+set-jump: post_election
+
+
+- @1928: 1928 historical scenario
+- @1930: 1930 historical scenario
+- @1932: 1932 (July) historical scenario
+
+@1928
+on-arrival: {!
+Q.workers = 46; // industry and trade
+Q.old_middle = 13; // "old mittelstand"
+// 16.4 trade & commerce, 6.6 public and private services, 4.4 domestic help
+Q.new_middle = 14; // "new mittelstand"
+Q.rural = 25; // agriculture and forestry employment... but many of those are proletarians so...
+// source: https://surface.syr.edu/cgi/viewcontent.cgi?filename=3&article=1016&context=books&type=additional page 43, table 3.3
+Q.unemployed = 8.6;
+Q.catholics = 30;
+
+Q.classes = ['workers', 'old_middle', 'new_middle', 'rural', 'unemployed', 'catholics'];
+Q.parties = ['spd', 'kpd', 'z', 'ddp', 'dvp', 'dnvp', 'nsdap', 'other'];
+
+// Support for party by social group
+// they don't have to sum to 100 since the electoral calculations will be normalized.
+Q.workers_spd = 65;
+Q.workers_kpd = 20;
+Q.workers_z = 5;
+Q.workers_ddp = 0;
+Q.ddp_name = "DDP"
+Q.workers_dvp = 0;
+Q.workers_dnvp = 5;
+Q.workers_nsdap = 0;
+Q.workers_other = 10;
+
+Q.old_middle_spd = 5;
+Q.old_middle_kpd = 0;
+Q.old_middle_z = 5;
+Q.old_middle_ddp= 10;
+Q.old_middle_dvp = 25;
+Q.old_middle_dnvp = 25;
+Q.old_middle_nsdap = 10;
+Q.old_middle_other = 10;
+
+Q.new_middle_spd = 5;
+Q.new_middle_kpd = 0;
+Q.new_middle_z = 10;
+Q.new_middle_ddp= 25;
+Q.new_middle_dvp = 25;
+Q.new_middle_dnvp = 10;
+Q.new_middle_nsdap = 5;
+Q.new_middle_other = 15;
+
+Q.rural_spd = 10;
+Q.rural_kpd = 0;
+Q.rural_z = 5;
+Q.rural_ddp= 5;
+Q.rural_dvp = 15;
+Q.rural_dnvp = 45;
+Q.rural_nsdap = 5;
+Q.rural_other = 10;
+
+Q.unemployed_spd = 25;
+Q.unemployed_kpd = 55;
+Q.unemployed_z = 1;
+Q.unemployed_ddp = 0;
+Q.unemployed_dvp = 0;
+Q.unemployed_dnvp = 5;
+Q.unemployed_nsdap = 15;
+Q.unemployed_other = 9;
+
+Q.catholics_spd = 15;
+Q.catholics_kpd = 5;
+Q.catholics_z = 50;
+Q.catholics_ddp = 0;
+Q.catholics_dvp = 5;
+Q.catholics_dnvp = 5;
+Q.catholics_nsdap = 0;
+Q.catholics_other = 10;
+!}
+go-to: election_algorithm
+set-jump: post_election
+
+@1930
+on-arrival: {!
+Q.workers = 46; // industry and trade
+Q.old_middle = 13; // "old mittelstand"
+// 16.4 trade & commerce, 6.6 public and private services, 4.4 domestic help
+Q.new_middle = 14; // "new mittelstand"
+Q.rural = 25; // agriculture and forestry employment... but many of those are proletarians so...
+// source: https://surface.syr.edu/cgi/viewcontent.cgi?filename=3&article=1016&context=books&type=additional page 43, table 3.3
+Q.unemployed = 20;
+Q.catholics = 30;
+
+Q.classes = ['workers', 'old_middle', 'new_middle', 'rural', 'unemployed', 'catholics'];
+Q.parties = ['spd', 'kpd', 'z', 'ddp', 'dvp', 'dnvp', 'nsdap', 'other'];
+
+// Support for party by social group
+// they don't have to sum to 100 since the electoral calculations will be normalized.
+Q.workers_spd = 60;
+Q.workers_kpd = 20;
+Q.workers_z = 5;
+Q.workers_ddp = 0;
+Q.workers_dvp = 0;
+Q.workers_dnvp = 0;
+Q.workers_nsdap = 10;
+Q.workers_other = 15;
+
+Q.old_middle_spd = 5;
+Q.old_middle_kpd = 0;
+Q.old_middle_z = 5;
+Q.old_middle_ddp= 5;
+Q.old_middle_dvp = 10;
+Q.old_middle_dnvp = 20;
+Q.old_middle_nsdap = 30;
+Q.old_middle_other = 15;
+
+Q.new_middle_spd = 5;
+Q.new_middle_kpd = 0;
+Q.new_middle_z = 5;
+Q.new_middle_ddp = 10;
+Q.new_middle_dvp = 20;
+Q.new_middle_dnvp = 10;
+Q.new_middle_nsdap = 25;
+Q.new_middle_other = 15;
+
+Q.rural_spd = 5;
+Q.rural_kpd = 0;
+Q.rural_z = 5;
+Q.rural_ddp= 5;
+Q.rural_dvp = 10;
+Q.rural_dnvp = 20;
+Q.rural_nsdap = 25;
+Q.rural_other = 15;
+
+Q.unemployed_spd = 20;
+Q.unemployed_kpd = 50;
+Q.unemployed_z = 0;
+Q.unemployed_ddp = 0;
+Q.unemployed_dvp = 0;
+Q.unemployed_dnvp = 5;
+Q.unemployed_nsdap = 25;
+Q.unemployed_other = 5;
+
+Q.catholics_spd = 10;
+Q.catholics_kpd = 5;
+Q.catholics_z = 50;
+Q.catholics_ddp = 0;
+Q.catholics_dvp = 5;
+Q.catholics_dnvp = 5;
+Q.catholics_nsdap = 10;
+Q.catholics_other = 5;
+
+Q.spd_r = 25;
+Q.kpd_r = 10;
+Q.z_r = 15;
+Q.ddp_r = 10;
+Q.dvp_r = 10;
+Q.dnvp_r = 14;
+Q.nsdap_r = 10;
+Q.other_r = 5;
+Q.ddp_name = "DStP"
+!}
+go-to: election_algorithm
+set-jump: post_election
+
+@1932
+on-arrival: {!
+Q.workers = 46; // industry and trade
+Q.old_middle = 13; // "old mittelstand"
+// 16.4 trade & commerce, 6.6 public and private services, 4.4 domestic help
+Q.new_middle = 14; // "new mittelstand"
+Q.rural = 25; // agriculture and forestry employment... but many of those are proletarians so...
+// source: https://surface.syr.edu/cgi/viewcontent.cgi?filename=3&article=1016&context=books&type=additional page 43, table 3.3
+Q.unemployed = 33;
+Q.catholics = 30;
+
+Q.classes = ['workers', 'old_middle', 'new_middle', 'rural', 'unemployed', 'catholics'];
+Q.parties = ['spd', 'kpd', 'z', 'ddp', 'dvp', 'dnvp', 'nsdap', 'other'];
+
+// Support for party by social group
+// they don't have to sum to 100 since the electoral calculations will be normalized.
+Q.workers_spd = 55;
+Q.workers_kpd = 20;
+Q.workers_z = 5;
+Q.workers_ddp = 0;
+Q.workers_dvp = 0;
+Q.workers_dnvp = 0;
+Q.workers_nsdap = 15;
+Q.workers_other = 5;
+
+Q.old_middle_spd = 0;
+Q.old_middle_kpd = 0;
+Q.old_middle_z = 5;
+Q.old_middle_ddp = 4;
+Q.old_middle_dvp = 4;
+Q.old_middle_dnvp = 15;
+Q.old_middle_nsdap = 70;
+Q.old_middle_other = 5;
+
+Q.new_middle_spd = 5;
+Q.new_middle_kpd = 0;
+Q.new_middle_z = 5;
+Q.new_middle_ddp = 10;
+Q.ddp_name = "DStP"
+Q.new_middle_dvp = 10;
+Q.new_middle_dnvp = 10;
+Q.new_middle_nsdap = 60;
+Q.new_middle_other = 5;
+
+Q.rural_spd = 0;
+Q.rural_kpd = 0;
+Q.rural_z = 5;
+Q.rural_ddp = 0;
+Q.rural_dvp = 5;
+Q.rural_dnvp = 15;
+Q.rural_nsdap = 65;
+Q.rural_other = 5;
+
+Q.unemployed_spd = 20;
+Q.unemployed_kpd = 40;
+Q.unemployed_z = 0;
+Q.unemployed_ddp = 0;
+Q.unemployed_dvp = 0;
+Q.unemployed_dnvp = 0;
+Q.unemployed_nsdap = 50;
+Q.unemployed_other = 5;
+
+Q.catholics_spd = 10;
+Q.catholics_kpd = 5;
+Q.catholics_z = 60;
+Q.catholics_ddp = 0;
+Q.catholics_dvp = 5;
+Q.catholics_dnvp = 5;
+Q.catholics_nsdap = 10;
+Q.catholics_other = 5;
+
+Q.spd_r = 25;
+Q.kpd_r = 10;
+Q.z_r = 15;
+Q.ddp_r = 10;
+Q.dvp_r = 10;
+Q.dnvp_r = 14;
+Q.nsdap_r = 10;
+Q.other_r = 5;
+!}
+go-to: election_algorithm
+set-jump: post_election
+
+@post_election
+on-arrival: {!
+// set congress proportion to votes
+Q.spd_r = Q.spd_votes;
+Q.z_r = Q.z_votes;
+Q.kpd_r = Q.kpd_votes;
+Q.ddp_r = Q.ddp_votes;
+Q.dvp_r = Q.dvp_votes;
+Q.dnvp_r = Q.dnvp_votes;
+Q.nsdap_r = Q.nsdap_votes;
+Q.other_r = Q.other_votes;
+
+// The largest party can only be the NSDAP or the SPD.
+Q.largest_party = 'SPD';
+if (Q.nsdap_r >= Q.spd_r && Q.nsdap_r >= Q.kpd_r) {
+    Q.largest_party = 'NSDAP';
+}
+if (Q.kpd_r >= Q.spd_r && Q.kpd_r >= Q.nsdap_r) {
+    Q.largest_party = 'KPD';
+}
+
+// coalitions
+Q.weimar_coalition = Q.spd_r + Q.ddp_r + Q.z_r - 3;
+Q.grand_coalition = Q.spd_r + Q.ddp_r + Q.z_r + Q.dvp_r;
+Q.bourgeois_coalition = Q.ddp_r + Q.z_r + Q.dvp_r + Q.other_r;
+Q.center_right_coalition = Q.z_r + Q.ddp_r + Q.dvp_r + Q.other_r + Q.dnvp_r;
+Q.right_coalition = Q.z_r + Q.dvp_r + Q.other_r + Q.dnvp_r;
+Q.far_right_coalition = Q.dnvp_r + Q.nsdap_r;
+Q.left_coalition = Q.spd_r + Q.kpd_r;
+// this is an absurd concept lol
+Q.united_front_coalition = Q.spd_r + Q.kpd_r + Q.z_r + Q.ddp_r - 3;
+Q.anti_democratic_coalition = Q.kpd_r + Q.nsdap_r;
+// aka everyone except nazi, kpd, dnvp
+Q.neo_weimar_coalition = Q.spd_r + Q.ddp_r + Q.z_r + Q.dvp_r + Q.other_r;
+var _newData = [];
+    function _addP(id, legend, seats) {
+        if (seats && seats > 0) _newData.push({ id: id, legend: legend, name: legend, seats: seats });
+    }
+    _addP('kpd', "KPD", Q.kpd_r*5);
+    _addP('uspd', 'USPD', Q.uspd_r*5);
+    _addP('sapd', 'SAPD', Q.sapd_r*5);
+    _addP('spd', 'SPD', Q.spd_r*5);
+    _addP('ddp', 'Q.ddp_name', Q.ddp_r*5);
+    _addP('z', 'Center', (Q.z_r - 3)*5);
+    if (Q.bvp_spilt == 1) _addP('bvp',  'BVP', 3*5);
+    _addP('dvp', 'DVP', Q.dvp_r*5);
+    _addP('other', 'Other', Q.other_r*5);
+    _addP('dnvp', 'DNVP', Q.dnvp_r*5);
+    _addP('dap', 'DAP', Q.dap_r*5);
+    _addP('nsdap', 'NSDAP', Q.nsdap_r*5);
+
+    var _newSig = JSON.stringify(_newData.map(function(p){ return p.id + p.seats; }));
+    var _changed = (_newSig !== window._parliSig);
+    window._parliData = _newData;
+    if (_changed) {
+        window._parliSig = _newSig;
+        window._parliAnimate = true;
+    } else {
+        window._parliAnimate = false;
+    }
+!}
+
+The electoral system is essentially proportional, with the proportion of Reichstag seats roughly equal to the proportion of votes.
+ 
+**Election results:**
+
+{!<svg id="status_parliament" style="width: 100%; display: block;"></svg>
+<script>
+(function() {
+    if (!d3 || !d3.parliament || !window._parliData || window._parliData.length === 0) return;
+    var el = document.getElementById('status_parliament');
+    if (!el) return;
+    var w = el.parentElement.offsetWidth || 220;
+    el.setAttribute('width', w);
+    el.setAttribute('height', Math.round(w * 0.55));
+    var parl = d3.parliament();
+    parl.width(w).height(Math.round(w * 0.55)).innerRadiusCoef(0.4);
+    var animate = window._parliAnimate;
+    parl.enter.fromCenter(animate).smallToBig(animate);
+    parl.exit.toCenter(animate).bigToSmall(animate);
+    d3.select('#status_parliament').datum(window._parliData).call(parl);
+})();
+</script>!}
+
+{!<table>!} 
+{!<tr><td>Party</td><td>Vote share</td><td>% Change</td></tr>!}
+{!<tr><td><div class="box" style='background-color:var(--spd-colour);'> </div> !} **SPD:** {!</td><td>!} **[+ spd_r +]%** {!</td></tr>!}
+
+[? if sapd_formed : {!<tr><td><div class="box" style='background-color:var(--sapd-colour);'> </div> !}SAPD: {!</td><td>!} [+ sapd_r +]% {!</td></tr>!} ?]
+
+{!<tr><td><div class="box" style='background-color:var(--kpd-colour);'> </div> !} KPD: {!</td><td>!} [+ kpd_r +]% {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--ddp-colour); outline: 2px; outline-style: solid;'> </div> !} [+ ddp_name +]: {!</td><td>!} [+ ddp_r +]% {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--z-colour);'> </div> !} Z: {!</td><td>!} [+ z_minus_bvp_r +]% {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--bvp-colour);'> </div> !} BVP: {!</td><td>!} 3% {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--dvp-colour);'> </div> !} DVP: {!</td><td>!} [+ dvp_r +]% {!</td></tr>!}
+ 
+{!<tr><td><div class="box" style='background-color:var(--i-colour);'> </div> !} Others: {!</td><td>!} [+ other_r +] % {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--dnvp-colour);'> </div> !} DNVP: {!</td><td>!} [+ dnvp_r +]% {!</td></tr>!}
+
+{!<tr><td><div class="box" style='background-color:var(--nsdap-colour);'> </div> !} NSDAP: {!</td><td>!} [+ nsdap_r +]% {!</td></tr>!}
+{!</table>!}
+
+> *"Bad men need nothing more to compass their ends, than that good men should look on and do nothing.*
+
+ - John Stuart Mill (1806-1873)
+
+
