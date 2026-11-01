@@ -815,8 +815,6 @@ Q.lamine_gueye_advisor = 0; // Amadou Lamine-Guèye
 Q.guerin_advisor = 0; // Daniel Guérin
 Q.degaulle_advisor = 0; // Charles De Gaulle
 !}
-new-page: true
-set-bg: img/map_2.jpg
   
 > *"No one knows better than I that my generation failed in its task. Yet I do not propose to defend it, but rather to try to point out to the rising generation—and to those to whom we shall pass on our burdens tomorrow—what can be learnt from our mistakes, our illusions and our misfortunes. That lesson will be of more use to others than to us."*
 
