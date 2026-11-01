@@ -72,4 +72,4 @@ Economic growth: [+ economic_growth_2 +]%
 
 = Party Leadership
 
-<span style="color: var(--pcf);">**PCF**</span>: <span class="ideology-tooltip-wrap"><span style="color: #700000;">Communism</span><span class="ideology-tooltip-tip"><img class="ideology-tooltip-image" src="img/communism.png"><span class="ideology-tooltip-title">Communism</span><span class="ideology-tooltip-description">A political ideology centered on democratic governance, social welfare, and equality.</span></span></span> ([+ pcf_leader +])
+<span style="color: var(--pcf);">**PCF**</span>: <span class="ideology-tooltip-wrap"><span style="color: #700000;">Communism</span><span class="ideology-tooltip-tip"><span class="ideology-tooltip-title">**Communism**</span><img class="ideology-tooltip-image" src="img/communism.png"><span class="ideology-tooltip-description">A political ideology centered on democratic governance, social welfare, and equality.</span></span></span> ([+ pcf_leader +])
