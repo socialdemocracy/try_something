@@ -1,0 +1,31 @@
+title: Cancel action.
+view-if: {!return (((Q['last_advisor_action'] || 0)===1) || ((Q['last_cabinet_action'] || 0)===1));!}
+on-arrival: {!var card = this.game.scenes[this.state.prevTopSceneId];
+if (Q.month_actions > 0) {
+    console.log('month_actions:', Q.month_actions);
+    Q.month_actions -= 1;
+}
+if (Q.last_advisor_action) {
+    Q.advisor_action_timer = 0;
+    Q.last_advisor_action = 0;
+    // if the advisor action is a government action or party action, return the timer to its previous condition.
+    if (card.tags.includes("party_affairs") && Q.month_party_actions > 0) {
+        Q.month_party_actions -= 1;
+    }
+    if (card.tags.includes("govt_affairs") && Q.month_gov_actions > 0) {
+        Q.month_gov_actions -= 1;
+    }
+}
+if (Q.last_cabinet_action) {
+    Q.last_cabinet_action = 0;
+    Q.month_gov_actions -= 1;
+}
+// reset the timer...
+if (Q[card.id + "_timer"]) {
+    Q[card.id + "_timer"] = 0;
+}
+// reduce visit count
+if (this.state.visits[card.id]) {
+    this.state.visits[card.id] -= 1;
+}!}
+go-to: root
