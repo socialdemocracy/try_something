@@ -1,0 +1,63 @@
+@main
+title: Next month
+on-arrival: {!if (Q.advisor_action_timer <= 0) {
+    Q.pinnedCardsDescription = 'Advisors - an action is available.';
+} else if (Q.advisor_action_timer == 1) {
+    Q.pinnedCardsDescription = 'Advisors - next action available in 1 month.';
+} else {
+    Q.pinnedCardsDescription = 'Advisors - next action available in ' + Q.advisor_action_timer + ' months.';
+}
+if (Q.sfio_in_government && Q.prime_minister_party == "SFIO") {
+    Q.pinnedCardsDescription += ' The Cabinet is always available as long as the prime minister is in the SFIO.';
+}!}
+set-bg: img/map.jpg
+is-hand: true
+max-cards: 3
+  
+- @party
+- @govt
+- #advisor
+
+@main_easy
+on-arrival: {!if (Q.advisor_action_timer <= 0) {
+    Q.pinnedCardsDescription = 'Advisors - an action is available.';
+} else if (Q.advisor_action_timer == 1) {
+    Q.pinnedCardsDescription = 'Advisors - next action available in 1 month.';
+} else {
+    Q.pinnedCardsDescription = 'Advisors - next action available in ' + Q.advisor_action_timer + ' months.';
+}
+if (Q.sfio_in_government && Q.prime_minister_party == "SFIO") {
+    Q.pinnedCardsDescription += ' The Cabinet is always available as long as the prime minister is in the SFIO.';
+}!}
+set-bg: img/map.jpg
+is-hand: true
+max-cards: 5
+- @party
+- @govt
+- #advisor
+- @shuffle_leadership_pinned
+
+@main.party
+title: Party Affairs
+is-deck: true
+card-image: img/LePopulaire.jpg
+- #party_affairs
+
+@pinned_cards.pc2
+title: Pinned Card 2
+subtitle: Description of Pinned Card 2
+tags: pinnedCard
+new-page: true
+is-pinned-card: true
+
+(Pinned Card 2 - something happens here)
+
+@pinned_cards
+title: Pinned Cards
+
+@main.govt
+title: Government Affairs
+view-if: {!return ((Q['time'] || 0) >= 6);!}
+is-deck: true
+card-image: img/PalaiseBourbon.jpg
+- #govt_affairs
