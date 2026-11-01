@@ -485,9 +485,10 @@ if (typeof window !== "undefined" && window.generateBar) {
 go-to: post_event.events_choice if {!return ((Q['has_event'] || 0)===1);!}; main if {!return (((Q['has_event'] || 0)===0) && ((Q['difficulty'] || 0) >= 0));!}; main.main_easy if {!return (((Q['has_event'] || 0)===0) && ((Q['difficulty'] || 0) < 0));!}
 new-page: true
 
+= [+ month : month +] [+ year +]
+
 @events_choice
 
 - #event
 
 # This scene is solely for updating numbers after events, and routing to special events.
-= [+ month : month +] [+ year +]
