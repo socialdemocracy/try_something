@@ -7,4 +7,3 @@ new-page: true
 
 @start
 on-arrival: {! Q.started = 1; !}
-go-to: 1936_main
