@@ -1,78 +1,45 @@
 title: Root Scene
 new-page: true
 go-to: post_event if started = 1; start_menu if started = 0
-
+  
 @start_menu
 new-page: true
-set-bg: img/start_background.jpg
 go-to: start_menu_2
 
+= Social Democracy: Popular Front
+
 @start_menu_2
-on-arrival: {!
-    setTimeout(function() {
-        const ids = ['topbar', 'tools_wrapper', 'game-title', 'game-author', 'header-links'];
-        ids.forEach(function(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            if (id === 'topbar' || id === 'tools_wrapper' || id === 'game-title' || id === 'game-author' || id === 'header-links') {
-                el.style.display = 'none';
-            }
-        });
-    }, 50);
-!}
-on-departure: {!
-    setTimeout(function() {
-        const ids = ['topbar', 'tools_wrapper', 'game-title', 'game-author', 'header-links'];
-        ids.forEach(function(id) {
-            const el = document.getElementById(id);
-            if (el) el.style.display = '';
-        });
-
-        const content = document.getElementById('content');
-        if (content) {
-            content.style.background = '';
-            content.style.border = '';
-        }
-
-        const collage = document.getElementById('start_collage');
-        if (collage) collage.remove();
-    }, 0);
-!}
-style: start-scene
-
-    = *<span style="color: var(--ddp-colour);">**Social Liberalism: An Alternate History**</span>*
-</div>
-
-<br>
-<img src="img/ddp_collage.png" style="width:1640;max-height:856;object-fit:cover;border:3px solid #000;">
-<br>
-<br>
-<br>
-
+  
 - @start: Start game
 
 @start
-set-bg: img/background.jpg
-new-page: true
 on-arrival: {!
-
+  
 Q.started = 1;
 // time elapsed (in months)
 Q.time = 1;
-Q.weeks = 1;
-Q.year = 1919;
-Q.month = 2;
+Q.year = 1936;
+Q.month = 1;
+Q.time_in_government = 0;
 // how many actions have been taken this month?
 Q.month_actions = 0;
+Q.month_party_actions = 0;
+Q.month_gov_actions = 0;
+// limit on the number of party and government actions per month
+Q.max_party_actions = 1;
+Q.max_gov_actions = 2;
+Q.max_actions = 1;
+Q.max_advisors = 4;
+
+// "Global max gov actions" is the maximum of max_gov_actions
+Q.global_max_gov_actions = 7;
+Q.global_max_gov_actions_coalition = 3;
 
 // 0 = normal difficulty, 1 = hard mode, 2 = hard mode no saves
 Q.difficulty = 0;
 Q.historical_mode = 0;
-// old demographics
-Q.old_demographics = 0;
-// use decimals for reichstag seats
-// TODO: not yet implemented
-Q.use_decimals = 0;
+// use decimals for seats
+Q.use_decimals = 1;
 
 // party resources
 Q.resources = 2;
@@ -85,775 +52,823 @@ Q.dissent = 0.05;
 Q.dissent_percent = 5;
 
 // factions
-Q.factions = ['sammlung', 'linksliberale', 'pazifisten', 'nationalliberale'];
+// left: Revolutionary Left, Center: Guesdist, Reformists, neosocialists???
+Q.factions = ['revolutionary_left', 'socialist_battle', 'center', 'reformist', 'neosocialist', 'pacifist'];
 // should this be normalized to 100%?
-Q.nationalliberale_strength = 20;
-Q.sammlung_strength = 30;
-Q.linksliberale_strength = 40;
-Q.pazifisten_strength = 10;
-Q.nationalliberale_dissent = 12;
-Q.sammlung_dissent = 5;
-Q.linksliberale_dissent = 10;
-Q.pazifisten_dissent = 12;
+Q.revolutionary_left_strength = 15;
+Q.revolutionary_left_dissent = 20;
+Q.socialist_battle_strength = 20;
+Q.socialist_battle_dissent = 20;
+Q.center_strength = 60;
+Q.center_dissent = 0;
+Q.reformist_strength = 5;
+Q.reformist_dissent = 20;
+Q.neosocialist_strength = 5;
+Q.neosocialist_dissent = 25;
+// pacifists represent the tendency led by Paul Faure.
+Q.pacifist_strength = 5;
+Q.pacifist_dissent = 5;
 
-// secret events...
-Q.linksliberale_resign = 0;
-Q.sammlung_resign = 0;
-Q.pazifisten_split = 0;
-Q.nationalliberale_defect = 0;
+// party ideologies
 
-// crisis_urgency indicates how seriously the SPD is taking the economic crisis - scale from 0 to 10.
-Q.crisis_urgency = 0;
-// nazi_urgency indicates how seriously the SPD takes the nazis - scale from 0 to 10.
-Q.nazi_urgency = 0;
-// radicalization indicates how radical the SPD's rhetoric is - scale from 0 to 10.
-Q.radicalization = 0;
-// Support for the WTB plan and proto-Keynesian works creation plans in general
-Q.wtb_support = 0;
-// Support for Pacifism within the SPD relative to 1928
-Q.pacifism = 0;
-// Support for democratic reform within the SPD relative to 1928
-Q.democratization = 0;
-// Support for a communist coalition relative to 1928
-Q.communist_coalition = 0;
-// economic_plan: have we adopted *any* economic plan?
-// 1 - WTB plan, 2 - AfA-bund plan, 3 - radical plan (mass nationalization of industries)
-Q.economic_plan = 0;
-// have we officially adopted the WTB plan?
-Q.wtb_adopted = 0;
-// have we formed the iron front?
-Q.iron_front_formed = 0;
-// people's party support
-Q.peoples_party_support = 0;
-// support for nationalizations
-Q.nationalization_support = 0;
-Q.nationalization_adopted = 0;
-// moderate economic plan
-Q.moderate_plan_support = 0;
-Q.moderate_plan_adopted = 0;
+// economic policy
+Q.economic_policies = ['classical_economics', 'stimulus', 'planism', 'socialization'];
+Q.classical_economics_support = 15;
+Q.stimulus_support = 50;
+Q.planism_support = 20;
+Q.socialization_support = 15;
 
-// organizations
+// foreign policy
+Q.foreign_policies = ['appeasement', 'international_cooperation', 'confrontation'];
+Q.appeasement_support = 25;
+Q.international_cooperation_support = 50;
+Q.confrontation_support = 25;
+
 
 // inter-party relations
-Q.z_relation = 60;
-Q.kpd_relation = 5;
-Q.spd_relation = 65;
-Q.dhp_relation = 58;
-Q.wp_relation = 36;
-Q.dvp_relation = 30;
-Q.uspd_relation = 20;
-Q.dnvp_relation = 15;
-Q.dap_relation = 0;
-Q.nsdap_relation = 0;
+Q.prrrs_relation = 60;
+Q.pcf_relation = 60;
+Q.usr_relation = 60;
+Q.ad_relation = 25;
+Q.fr_relation = 10;
+Q.pdp_relation = 25;
+Q.psf_relation = 6;
+Q.ppf_relation = 0;
 
-Q.kpd_leader = "Thälmann";
-// alternative is the Conciliators as party leader
-Q.kpd_party_leader = "Thälmann";
-Q.z_leader = "Brüning";
-// party leader - can be Ludwig Kaas, Joseph Joos, or Adam Stegerwald after the 1928 December conference. Joos will be most friendly to the SPD.
-Q.z_party_leader = "Marx";
-Q.nsdap_leader = "Hitler";
-Q.nsdap_leader = "Harrer";
+// other party relations
+Q.prrrs_pcf_relation = 40;
+Q.prrrs_usr_relation = 60;
+Q.prrrs_ad_relation = 35;
+Q.prrrs_fr_relation = 25;
+Q.prrrs_pdp_relation = 35;
+Q.pcf_usr_relation = 40;
+Q.pcf_ad_relation = 0;
+Q.pcf_fr_relation = 0;
+Q.pcf_pdp_relation = 0;
+Q.usr_ad_relation = 30;
+Q.usr_fr_relation = 15;
+Q.usr_pdp_relation = 30;
+Q.ad_pdp_relation = 55;
+Q.ad_fr_relation = 55;
+Q.fr_pdp_relation = 55;
+Q.fr_psf_relation = 50;
+Q.ad_psf_relation = 40;
+Q.pdp_psf_relation = 40;
 
-// hmm... maybe we can play nice with Hindenburg???
-Q.hindenburg_relation = 25;
-// whether or not hindenburg can dismiss the government.
-Q.hindenburg_enabled = 0;
+// relations with non-party entities
+Q.cgt_relation = 60;
+Q.senate_relation = 40;
+Q.civil_service_relation = 50;
+Q.colonial_relation = 35;
+Q.colonial_support = 0;
+// French settlers in Algeria
+Q.settler_dissent = 0;
 
-// if SA wins against police and rb this variable gets increased and grants extra flavour.
-Q.sa_won_against_police_rb = 0;
+Q.sfio_leader = "Blum";
+Q.pcf_leader = "Thorez";
+Q.pcf_party_leader = "Thorez";
+Q.prrrs_leader = "Daladier";
+Q.prrrs_party_leader = "Daladier";
 
-// ddp industrial backing, for cards and fundraising
-Q.ddp_industrial_backing = 1;
-
-// Zentrum BVP split variable for 1920
-Q.bvp_split = 0;
-
-// Territories
-Q.anhalt = 1;
-Q.anhalt_prussia = 0;
-Q.baden = 1;
-Q.baden_wurttemberg = 0;
-Q.wurttemberg = 1;
-Q.bavaria = 1;
-Q.bavaria_independent = 0;
-Q.bremen = 1;
-Q.bremen_prussia = 0;
-Q.brunswick = 1;
-Q.brunswick_prussia = 0;
-Q.hamburg = 1;
-Q.hamburg_prussia = 0;
-Q.hesse = 1;
-Q.hesse_prussia = 0;
-Q.lippe = 1;
-Q.lippe_prussia = 0;
-Q.lippe_brunswick = 0;
-Q.lubeck = 1;
-Q.lubeck_oldenburg = 0;
-Q.meck_schw = 1;
-Q.meck_stre = 1;
-Q.meck = 0;
-Q.oldenburg = 1;
-Q.oldenburg_lubeck = 0;
-Q.prussia = 1;
-Q.saxony = 1;
-Q.saxony_prussia = 1;
-Q.scha_lippe = 1;
-Q.scha_lippe_prussia = 1;
-Q.thuringia = 1;
-Q.thuringia_prussia = 1;
-
-
-
-// Important variables for missions
-Q.republic_secured = 0;
-Q.constitution_written = 0;
-Q.constitution_stalled = 0;
-Q.reactionary_threat = 2;
-Q.situation_on_the_street = 5;
-
-// USPD radicalisation to be used in various events
-Q.uspd_radicalisation = 2;
-
-// Erkelenz stuff
-Q.abstained_socialization = 0;
-Q.yea_socialization_erkelenz = 0;
-Q.yea_socialization_death_erkelenz = 0;
-Q.yea_taxation_erkelenz = 0;
-Q.no_taxation_erkelenz = 0;
-
-// For Wirtschaftspartei founding in 1920
-Q.wp_founded = 0;
-
-// Variable to use for austrian unification with germany
-Q.austria_unification_opinion = 0;
-
-// Support amongst the german public for membership in the league of nations
-Q.league_membership_support = 0;
-
-// Anger amongst freikorps, high = assasination risks and coup strenght, low = ability to stop assasinations
-Q.freikorps_anger = 0;
-Q.freikorps_dealt_with = 0;
-
-// newspaper stuff 
-Q.newspaper_founded = 0;
-Q.edjd_integrated = 0;
-Q.dh_integrated = 0;
-Q.newspaper_editor = "Nobody";
-Q.newspaper_invested_in = 0;
-
-// Soldatenwehr
-// if strenghtened during kapp putsch increased
-Q.soldatenwehr_strenghtened_1 = 0;
-Q.soldatenwehr_available = 0;
-
-
-// Reichsbanner formed?
-Q.reichsbanner_formed = 0;
-
-// Reichsbanner formation progress
-Q.reichsbanner_progress = 0;
-
-// Variable for organisation of women 
-Q.womens_organizing = 0;
-
-// Socialisation debate 
-Q.socialization_debate_seen = 0;
-
-// Interior police formed?
-Q.interior_police_formed = 0;
-
-// Young democrats organisation strength 
-Q.young_democrats = 2;
-
-// science investements from ddp
-Q.ddp_funded_science = 0;
-
-// reichsbanner influence for parties
-Q.rb_ddp_influence = 0;
-Q.rb_spd_influence = 0;
-Q.rb_z_influence = 0;
-
-// Other vars
-Q.constitution_leverage = 0;
-Q.worker_campaign_modifier = 0;
-Q.old_middle_campaign_modifier = 0;
-Q.new_middle_campaign_modifier = 0;
-Q.anti_nationalism_modifier = 0;
-Q.pro_republic_modifier = 0;
-
-// Does the SPD lead in Prussia?
-Q.spd_prussia = 1;
-// Options: spd, z, dnvp, papen, nsdap
-Q.prussian_government = "SPD";
 
 // The array of forces - paramilitary groups
-// Number of members in 1928 (in thousands)
-// Reichsbanner, stahlhelm, Freikorps, SA, rotfrontkämpferbund
-Q.rb_strength = 0;
-Q.rb_militancy = 0;
-Q.women_in_rb = 0;
-Q.rb_banned = 0;
-Q.sh_strength = 250;
-Q.sh_militancy = 0.4;
-Q.sh_banned = 0;
-Q.sh_banned_prussia = 0;
-Q.sa_strength = 0;
-Q.sa_militancy = 0;
-Q.sa_banned = 0;
-Q.sa_banned_prussia = 0;
-Q.rfb_strength = 0;
-Q.rfb_militancy = 0;
-Q.rfb_banned = 0;
-Q.rfb_banned_prussia = 0;
-Q.freikorps_strength = 350;
-Q.freikorps_militancy = 0.6;
-Q.freikorps_loyalty = 0.3;
-Q.freikorps_banned = 0;
-Q.soldatenwehr_strenght = 10;
-Q.soldatenwehr_militancy = 0.5;
-Q.soldatenweh_loyalty = 0.6;
 
-Q.interior_police_strength = 40;
+// Camelots du Roi, Cagoulards, etc.
+Q.right_wing_paramilitary_strength = 350;
+Q.right_wing_paramilitary_militancy = 0.5;
+
+Q.interior_police_strength = 70;
 Q.interior_police_militancy = 1;
-Q.interior_police_loyalty = 0.4;
+Q.interior_police_loyalty = 0.55;
 
-Q.prussian_police_strength = 50;
-Q.prussian_police_militancy = 1;
-Q.prussian_police_loyalty = 0.45;
+// worker's militias
+Q.workers_militia_strength = 20;
+Q.workers_militia_militancy = 0.2;
 
-Q.reichswehr_strength = 0;
-Q.reichswehr_militancy = 0;
-Q.reichswehr_loyalty = 0.3;
+// how much strife is there?
+Q.strife = 1;
+
+//////////////////////// War and defense //////////////////////////
+
+// The military!!!
+Q.max_military_production = 4;
+Q.battles = 0;
+
+// options for army chief: Gamelin, Weygand, Georges
+Q.army_chief = "Gamelin";
+
+// strength includes actual military and de facto reserves?
+// strength is in divisions
+Q.army_strength = 25;
+Q.army_units = ['standing_division', 'armored', 'reserve_a', 'reserve_b', 'aa', 'at',
+    'fighter', 'bomber', 'fortress'];
+Q.defense_units = ['aa', 'at', 'fortress'];
+Q.standing_division_units = 25;
+Q.armored_units = 0;
+// anti-air units
+Q.aa_units = 0;
+// anti-tank units
+Q.at_units = 0;
+Q.fortress_units = 0;
+// maximum army strength with current military production levels
+Q.reserve_a_units = 18;
+Q.reserve_b_units = 18;
+// equipment level
+Q.standing_equipment = 5;
+Q.reserve_a_equipment = 4;
+Q.reserve_b_equipment = 3;
+Q.armored_equipment = 6;
+Q.fighter_equipment = 1;
+Q.bomber_equipment = 1;
+Q.aa_equipment = 5;
+Q.at_equipment = 5;
+
+// army_loyalty is between 0 and 1.
+Q.army_loyalty = 0.5;
+
+// Military equipment
+Q.tanks = 100;
+Q.fighter_units = 100;
+Q.bomber_units = 50;
+Q.ship_units = 50;
+
+//// military production ///////////
+// production rates (per month):
+// how many units are produced per month...
+Q.standing_division_production = 1/6;
+Q.reserve_a_production = 1/6;
+Q.reserve_b_production = 1/6;
+Q.armored_production = 1/16;
+Q.aa_production = 0;
+Q.at_production = 0;
+Q.fortress_production = 1/12;
+
+Q.standing_division_progress = 0;
+Q.reserve_a_progress = 0;
+Q.reserve_b_progress = 0;
+Q.armored_progress = 0;
+Q.fighter_progress = 0;
+Q.bomber_progress = 0;
+Q.aa_progress = 0;
+Q.at_progress = 0;
+Q.fortress_progress = 0;
+
+Q.fighter_production = 10;
+Q.bomber_production = 5;
+Q.ship_production = 1/12;
+Q.ship_progress = 0;
+
+// maximum possible military production if all industrial capacity is assigned to military
+// formula: equipment + tank + fighter + bomber < max_military_production
+Q.max_military_production = 200;
+
+// military discipline - used in offense
+Q.discipline = 0.7;
+// military leadership
+Q.leadership = 0.6;
+// War weariness is between 0 and 100
+Q.war_weariness = 0;
+// supply quality is based on military industry
+Q.supply_quality = 1;
+// morale is used in defense. between 0 and 1
+Q.morale = 0.7;
+// defensive bonus is added...
+Q.defense_bonus = 1;
+
+// military plan
+Q.military_plan = "dyle";
+// can be "dyle", "balanced_defense"
+
+////////////// the Fronts //////////////////////////////////
+
+// The war has 5 fronts, plus a bunch of reserves
+Q.fronts = ['northern_belgium', 'southern_belgium', 'alsace_lorraine', 'italy'];
+Q.front_names = {'northern_belgium': 'Northern Belgium',
+        'southern_belgium': 'Southern Belgium/Ardennes',
+        'alsace_lorraine': 'Alsace-Lorraine',
+        'switzerland': 'Switzerland',
+        'italy': 'Italy'};
+
+// advancing status along the fronts...
+Q.northern_belgium_progress = 0;
+Q.southern_belgium_progress = 0;
+Q.alsace_lorraine_progress = 0;
+
+// priorities for the generals: Alsace-Lorraine > Northern Belgium > Southern Belgium, while covering Switzerland and Italy
+// northern front: northern Belgium
+Q.northern_belgium_standing_division_units = 0;
+Q.northern_belgium_reserve_a_units = 0;
+Q.northern_belgium_reserve_b_units = 0;
+Q.northern_belgium_armored_units = 0;
+Q.northern_belgium_aa_units = 0;
+Q.northern_belgium_at_units = 0;
+
+
+Q.southern_belgium_standing_division_units = 0;
+Q.southern_belgium_reserve_a_units = 0;
+Q.southern_belgium_reserve_b_units = 0;
+Q.southern_belgium_armored_units = 0;
+Q.southern_belgium_aa_units = 0;
+Q.southern_belgium_at_units = 0;
+
+
+Q.alsace_lorraine_standing_division_units = 0;
+Q.alsace_lorraine_reserve_a_units = 0;
+Q.alsace_lorraine_reserve_b_units = 0;
+Q.alsace_lorraine_armored_units = 0;
+Q.alsace_lorraine_aa_units = 0;
+Q.alsace_lorraine_at_units = 0;
+
+
+Q.switzerland_standing_division_units = 0;
+Q.switzerland_reserve_a_units = 0;
+Q.switzerland_reserve_b_units = 0;
+Q.switzerland_armored_units = 0;
+Q.switzerland_aa_units = 0;
+Q.switzerland_at_units = 0;
+
+
+Q.italy_standing_division_units = 0;
+Q.italy_reserve_a_units = 0;
+Q.italy_reserve_b_units = 0;
+Q.italy_armored_units = 0;
+Q.italy_aa_units = 0;
+Q.italy_at_units = 0;
+
+
+Q.reserve_standing_division_units = 0;
+Q.reserve_reserve_a_units = 0;
+Q.reserve_reserve_b_units = 0;
+Q.reserve_armored_units = 0;
+Q.reserve_aa_units = 0;
+Q.reserve_at_units = 0;
+Q.reserve_fortress_units = 0;
+// defensive bonuses
+Q.northern_belgium_defense_bonus = 0;
+Q.southern_belgium_defense_bonus = 6;
+Q.alsace_lorraine_defense_bonus = 8;
+Q.switzerland_defense_bonus = 8;
+Q.italy_defense_bonus = 10;
+
+Q.northern_belgium_fortress_units = 1;
+Q.southern_belgium_fortress_units = 0;
+Q.alsace_lorraine_fortress_units = 10;
+Q.switzerland_fortress_units = 0;
+Q.italy_fortress_units = 5;
+
+// Enemy troops...
+////////////////////////////////////////////////// German military
+Q.german_units = ['division', 'armored', 'fighter', 'bomber', 'at', 'aa', 'fortress'];
+Q.german_division_units = 46;
+Q.german_armored_units = 1;
+Q.german_fighter_units = 200;
+Q.german_bomber_units = 200;
+Q.german_at_units = 2;
+Q.german_aa_units = 2;
+Q.german_fortress_units = 2;
+
+Q.german_division_production = 1;
+Q.german_armored_production = 1/3;
+Q.german_fighter_production = 20;
+Q.german_bomber_production = 10;
+Q.german_at_production = 1/6;
+Q.german_aa_production = 1/6;
+Q.german_fortress_production = 1/8;
+
+Q.german_division_progress = 0;
+Q.german_armored_progress = 0;
+Q.german_fighter_progress = 0;
+Q.german_bomber_progress = 0;
+Q.german_at_progress = 0;
+Q.german_aa_progress = 0;
+Q.german_fortress_progress = 0;
+
+Q.german_division_equipment = 4.5;
+Q.german_armored_equipment = 6;
+Q.german_fighter_equipment = 1;
+Q.german_bomber_equipment = 1;
+Q.german_at_equipment = 5;
+Q.german_aa_equipment = 5;
+
+Q.german_morale = 0.75;
+Q.german_discipline = 0.9;
+
+Q.eastern_german_division_units = 0;
+Q.northern_belgium_german_division_units = 0;
+Q.southern_belgium_german_division_units = 0;
+Q.alsace_lorraine_german_division_units = 0;
+Q.switzerland_german_division_units = 0;
+Q.italy_german_division_units = 0;
+Q.german_reserve_division_units = 0;
+
+Q.eastern_german_armored_units = 0;
+Q.northern_belgium_german_armored_units = 0;
+Q.southern_belgium_german_armored_units = 0;
+Q.alsace_lorraine_german_armored_units = 0;
+Q.switzerland_german_armored_units = 0;
+Q.italy_german_armored_units = 0;
+Q.german_reserve_armored_units = 0;
+
+Q.eastern_german_fortress_units = 5;
+Q.northern_belgium_german_fortress_units = 0;
+Q.southern_belgium_german_fortress_units = 0;
+Q.alsace_lorraine_german_fortress_units = 5;
+Q.switzerland_german_fortress_units = 0;
+Q.italy_german_fortress_units = 0;
+Q.german_reserve_fortress_units = 0;
+
+Q.eastern_german_aa_units = 0;
+Q.northern_belgium_german_aa_units = 0;
+Q.southern_belgium_german_aa_units = 0;
+Q.alsace_lorraine_german_aa_units = 2;
+Q.switzerland_german_aa_units = 0;
+Q.italy_german_aa_units = 0;
+Q.german_reserve_aa_units = 0;
+
+Q.eastern_german_at_units = 0;
+Q.northern_belgium_german_at_units = 0;
+Q.southern_belgium_german_at_units = 0;
+Q.alsace_lorraine_german_at_units = 2;
+Q.switzerland_german_at_units = 0;
+Q.italy_german_at_units = 0;
+Q.german_reserve_at_units = 0;
 
 // The state of the country
 
-// popular opinion
+////////////////////////// popular opinion //////////////////
+
 // national ideology - on a binary scale
-Q.nationalism = 55;
-Q.socialism = 45;
-Q.pro_republic = 45;
+// socialism vs capitalism
+Q.socialism = 48;
+// pro-republic vs anti-republic
+Q.pro_republic = 70;
+// pacifism support
+Q.pacifism = 50;
+// antifascism support
+Q.antifascism = 30;
 
-Q.emergency_rule = 0;
+// unrest ////////////////////////////////
 
-// minimum percentage of votes to be represented in the Reichstag
-Q.electoral_threshold = 0;
-// constitutional reform level
-Q.constitutional_reform = 0;
-// constructive vote of no confidence
-Q.constructive_vonc = 0;
-// reduction in presidential powers
-Q.presidential_powers = 0;
-// allows banning of non-constitutional parties
-Q.constitutional_protection = 0;
-Q.kpd_banned = 0;
-Q.nsdap_banned = 0;
+// unrest - if labor_unrest is at high or above, there will be a general strike.
+Q.labor_unrest = 60;
 
-// coups and capital strikes happen when you upset the right or the capitalists too much with your policies. they're an additional check on your policies, when purely electoral checks don't suffi[...]
+// constitutional reforms
+Q.senate_reform = 0;
+
+
+// Is the PCF banned?
+Q.pcf_banned = 0;
+// Are the far-right leagues banned?
+Q.far_right_banned = 0;
+
+
+// coups and capital strikes happen when you upset the right or the capitalists too much with your policies. they're an additional check on your policies, when purely electoral checks don't suffice.
 // when coup_progress reaches 10 or capital_strike_progress reaches 10, there's a special event that launches the coup.
 Q.coup_progress = 0;
 Q.capital_strike_progress = 0;
 
-Q.budget = 3;
+Q.in_civil_war = 0;
+Q.in_revolution = 0;
+Q.in_coup = 0;
 
-// Proportion of different social groups (Pre-hyperinflation groups for 1919)
-// source: https://surface.syr.edu/cgi/viewcontent.cgi?filename=3&article=1016&context=books&type=additional page 45, table 3.4 - using 1925 figures
-Q.workers = 48; // industry and trade
-Q.old_middle = 13; // "old mittelstand"
-// 16.4 trade & commerce, 6.6 public and private services, 4.4 domestic help
-Q.new_middle = 14; // "new mittelstand"
-Q.rural = 25; // agriculture and forestry employment... but many of those are proletarians so...
-// source: https://surface.syr.edu/cgi/viewcontent.cgi?filename=3&article=1016&context=books&type=additional page 43, table 3.3
-Q.unemployed = 4;
-Q.catholics = 30;
+// colonial dissent...
 
-// unemployment: 1929 - 13.3, 1930 - 22.7, 1931 - 34.3, 1932 - 43.8 (same source as above)
+//////////////////////////////////// Demographic and economic stats
 
-// income for industrial workers in reichsmarks/year - 1928 = 1600 Reichsmarks/year; 1931 = 1440 Reichsmarks/year; 1933 = 1138 Reichsmarks/year - source: https://babel.hathitrust.org/cgi/pt?id=ui[...]
-Q.income = 2000;
-// what about incomes for different classes? rural workers? middle-class workers?
+// Proportion of different social groups ////////////////////////////
 
-// inflation (in %; 1928: 2.9; 1929: 0; 1930: -5%; 1931: -10%; 1932: -10%) - source: https://en.wikipedia.org/wiki/File:BSPDRWeltkriseEngl.PNG, derived from https://www.destatis.de/DE/Methoden/WI[...]
-Q.inflation = 8;
+// source: The Structure of the Employee Classes in France during the Last Fifty Years - https://heinonline.org/HOL/Page?handle=hein.journals/intlr67&id=237&div=&collection=
+Q.workers = 36; // industry and trade
+Q.old_middle = 13; // self-employed, small businesses
+Q.new_middle = 18; // while-collar employees
+Q.rural = 30;
+// Source: Public policy and unemployment in France, 1920-1938 - http://webcat.warwick.ac.uk/record=b1403962~S1 (Syme 1996)
+Q.unemployed = 7.5;
+Q.catholics = 25;
 
-// economic growth - same source as above, Table 2 (preisbereinigt) - 1919
-Q.economic_growth = -8;
+
+// Source: Supply-Side Policies in the Depression: Evidence from France - https://web.archive.org/web/20200529160812/https://www.piie.com/system/files/documents/wp17-4.pdf
+Q.monetary_inflation = 0;
+Q.inflation = -1.0;
+Q.economic_growth = -1.0;
+
+/////////////////////////////// economic simulation model
+// The economic model is based on aggregate supply and aggregate demand.
+Q.max_demand = 200;
+Q.max_supply = 110;
+Q.supply_intercept = 0;
+Q.demand_slope = 1;
+Q.supply_slope = 1;
+Q.monthly_demand_growth = 0.1;
+Q.monthly_supply_growth = 0.05;
+
+// quantity supplied, price
+Q.qs_curr = 101;
+Q.qs_eq = 95;
+Q.p_curr = 101;
+Q.p_eq = 95;
+
+// total industrial productivity as % of 1936 - affected by economic growth, affects max military production
+Q.productivity = 100;
+
+// hours worked
+Q.hours_worked = 50;
 
 // economic expansion timer
 Q.economic_expansion = 0;
 
-// quality of life (as % of 1928 - currently unused - should be welfare-adjusted.)
-Q.workers_qol = 100;
-Q.rural_qol = 100;
-Q.unemployed_qol = 100;
-Q.old_middle_qol = 100;
-Q.new_middle_qol = 100;
 
+// old_middle: Petit Bourgeois
+// new_middle: White-collar
 Q.classes = ['workers', 'old_middle', 'new_middle', 'rural', 'unemployed', 'catholics'];
-Q.parties = ['spd', 'kpd', 'uspd', 'z', 'ddp', 'dvp', 'dnvp', 'dap', 'nsdap', 'other'];
- 
-// TODO: add rdp later
-Q.sapd_formed = 0;
-Q.dap_formed = 1;
-Q.nsdap_formed = 0;
-Q.rdp_formed = 0;
-Q.bvp_spilt = 0;
+Q.parties = ['sfio', 'pcf', 'prrrs', 'usr', 'ad', 'fr', 'pdp'];
+
+// new parties: PSF, PPF
+Q.psf_formed = 0;
+Q.ppf_formed = 0;
+
 
 // Support for party by social group
 // they don't have to sum to 100 since the electoral calculations will be normalized.
-// Support for party by social group
-Q.workers_spd = 45;
-Q.workers_kpd = 0;
-Q.workers_uspd = 15;
-Q.workers_z = 5;
-Q.workers_ddp = 3;
-Q.workers_dvp = 0;
-Q.workers_dnvp = 5;
-Q.workers_dap = 0;
-Q.workers_nsdap = 0;
-Q.workers_other = 5;
+Q.workers_sfio = 35;
+Q.workers_pcf = 40;
+Q.workers_prrrs = 5;
+Q.workers_usr = 15;
+Q.workers_ad = 2;
+Q.workers_fr = 2;
+Q.workers_pdp = 2;
+Q.workers_psf = 0;
+Q.workers_ppf = 0;
 
-Q.old_middle_spd = 5;
-Q.old_middle_kpd = 0;
-Q.old_middle_uspd = 2;
-Q.old_middle_z = 8;
-Q.old_middle_ddp = 20;
-Q.old_middle_dvp = 15;
-Q.old_middle_dnvp = 25;
-Q.old_middle_dap = 0;
-Q.old_middle_nsdap = 0;
-Q.old_middle_other = 5;
+Q.old_middle_sfio = 16;
+Q.old_middle_pcf = 0;
+Q.old_middle_prrrs = 30;
+Q.old_middle_usr = 5;
+Q.old_middle_ad = 25;
+Q.old_middle_fr = 15;
+Q.old_middle_pdp = 10;
+Q.old_middle_psf = 0;
+Q.old_middle_ppf = 0;
+Q.old_middle_other = 0;
 
-Q.new_middle_spd = 5;
-Q.new_middle_kpd = 0;
-Q.new_middle_uspd = 3;
-Q.new_middle_z = 8;
-Q.new_middle_ddp = 40;
-Q.new_middle_dvp = 15;
-Q.new_middle_dnvp = 10;
-Q.new_middle_dap = 0;
-Q.new_middle_nsdap = 0;
-Q.new_middle_other = 4;
+Q.new_middle_sfio = 25;
+Q.new_middle_pcf = 2;
+Q.new_middle_prrrs = 31;
+Q.new_middle_usr = 5;
+Q.new_middle_ad = 23;
+Q.new_middle_fr = 10;
+Q.new_middle_pdp = 5;
+Q.new_middle_psf = 0;
+Q.new_middle_ppf = 0;
+Q.new_middle_other = 0;
 
-Q.rural_spd = 8;
-Q.rural_kpd = 0;
-Q.rural_uspd = 2;
-Q.rural_z = 20;
-Q.rural_ddp = 10;
-Q.rural_dvp = 10;
-Q.rural_dnvp = 40;
-Q.rural_dap = 0;
-Q.rural_nsdap = 0;
-Q.rural_other = 5;
+Q.rural_sfio = 15;
+Q.rural_pcf = 0;
+Q.rural_prrrs = 35;
+Q.rural_usr = 5;
+Q.rural_ad = 25;
+Q.rural_fr = 15;
+Q.rural_pdp = 5;
+Q.rural_psf = 0;
+Q.rural_ppf = 0;
+Q.rural_other = 0;
 
-Q.unemployed_spd = 25;
-Q.unemployed_kpd = 0;
-Q.unemployed_uspd = 25;
-Q.unemployed_z = 2;
-Q.unemployed_ddp = 2;
-Q.unemployed_dvp = 0;
-Q.unemployed_dnvp = 5;
-Q.unemployed_dap = 0;
-Q.unemployed_nsdap = 0;
-Q.unemployed_other = 5;
+Q.unemployed_sfio = 25;
+Q.unemployed_pcf = 55;
+Q.unemployed_prrrs = 1;
+Q.unemployed_usr = 0;
+Q.unemployed_ad = 0;
+Q.unemployed_fr = 5;
+Q.unemployed_pdp = 9;
+Q.unemployed_psf = 0;
+Q.unemployed_ppf = 0;
+Q.unemployed_other = 0;
 
-Q.catholics_spd = 10;
-Q.catholics_kpd = 0;
-Q.catholics_uspd = 3;
-Q.catholics_z = 65;
-Q.catholics_ddp = 3;
-Q.catholics_dvp = 3;
-Q.catholics_dnvp = 3;
-Q.catholics_dap = 0;
-Q.catholics_nsdap = 0;
-Q.catholics_other = 3;
+Q.catholics_sfio = 5;
+Q.catholics_pcf = 1;
+Q.catholics_prrrs = 5;
+Q.catholics_usr = 0;
+Q.catholics_ad = 30;
+Q.catholics_fr = 35;
+Q.catholics_pdp = 25;
+Q.catholics_psf = 0;
+Q.catholics_ppf = 0;
+Q.catholics_other = 0;
 
 
-// Current Reichstag composition
-// % of Reichstag in Jan 1928
-// source: wikipedia
-// note: the Z figures also include the BVP (Bavarian people's party)
-// since they were ideologically similar, but they were separate parties.
-// They did not have a CDU/CSU-style relationship.
-Q.spd_r = 38;
-Q.kpd_r = 0;
-Q.uspd_r = 8;
-Q.z_r = 20;
-Q.ddp_r = 19;
-Q.dvp_r = 4;
-Q.dnvp_r = 10;
-Q.dap_r = 0;
-Q.nsdap_r = 0;
-Q.other_r = 1;
-
+// current Chamber of Deputies composition as of Jan 1936
+// believe it or not, election results for the 3rd republic are inconsistent and hard!!! Should we go by the French wiki or the English wiki???
+// source: https://en.wikipedia.org/wiki/1932_French_legislative_election
+// alternate source: http://geoelections.free.fr/France/histoire/1932L_elus.htm
+// proportions differ for different sources! Party affiliation was unclear in many cases!
+// let's just use frwiki (no "other")
+// election results in 1936 (official): https://gallica.bnf.fr/ark:/12148/bpt6k320440p/
+// SFIO: 129/605 according to enwiki, 132/607 according to frwiki
+Q.sfio_r = 21.7
+// PCF: 12/605 enwiki, 10/607 frwiki
+Q.pcf_r = 1.6;
+// 157/605 enwiki, 160/607 frwiki
+Q.prrrs_r = 26.4;
+// 37/605 + 11/605 (let's just put the PUP here) enwiki, 43 + 9/607 frwiki
+Q.usr_r = 8.6;
+// 72 + 62 (AD includes "independent radicals")  = 134/605 enwiki, 121/605 frwiki
+Q.ad_r = 20.0;
+// 76/605 enwiki, 83/607 frwiki
+Q.fr_r = 13.7;
+// 33/605 enwiki ("Conservatives and Independents" ???)
+Q.other_r = 0;
+// 16/605 enwiki, 49/607 frwiki (guessing this includes the independent conservatives)
+Q.pdp_r = 8.1;
+Q.psf_r = 0;
+Q.ppf_r = 0;
+Q.psop_r = 0;
 
 // diff from prev
-Q.old_spd_r = 38;
-Q.old_kpd_r = 0;
-Q.old_uspd_r = 8;
-Q.old_z_r = 20;
-Q.old_ddp_r = 19;
-Q.old_dvp_r = 4;
-Q.old_dnvp_r = 10;
-Q.old_dap_r = 0;
-Q.old_nsdap_r = 0;
-Q.old_other_r = 1;
+Q.old_sfio_r = 21.7;
+Q.old_pcf_r = 1.6;
+Q.old_prrrs_r = 26.4;
+Q.old_usr_r = 8.6;
+Q.old_ad_r = 20.0;
+Q.old_fr_r = 13.7;
+Q.old_pdp_r = 8.1;
+Q.old_other_r = 0;
+Q.old_psf_r = 0;
+Q.old_ppf_r = 0;
+Q.old_psop_r = 0;
 
-// sapd isn't formed yet, but it may be formed
-Q.sapd_r = 0;
-Q.old_sapd_r = 0;
+// old popular votes (round 1) (source: https://fr.wikipedia.org/wiki/%C3%89lections_l%C3%A9gislatives_fran%C3%A7aises_de_1932)
+Q.old_sfio_votes = 20.5;
+Q.old_pcf_votes = 8.3;
+Q.old_prrrs_votes = 19.2;
+Q.old_usr_votes = 6.2;
+Q.old_ad_votes = 28.8;
+Q.old_fr_votes = 13.7;
+Q.old_pdp_votes = 3.3;
+Q.old_other_votes = 0;
+Q.old_psf_votes = 0;
+Q.old_ppf_votes = 0;
+Q.old_psop_votes = 0;
 
-// for changing the DDP's name to the DStP
-Q.ddp_name = "DDP";
-Q.ddp_full_name = "German Democratic Party";
-Q.ddp_full_name_german = "Deutsche Demokratische Partei";
-Q.img_leader = "img/naumann.jpeg";
-Q.name_leader = "Friedrich Naumann";
-
-// array of objects of the form {date: Date(), spd: 10, kpd: 12, ...} for each election
+// array of objects of the form {date: Date(), sfio: 10, kpd: 12, ...} for each election
 Q.election_records = [];
 // party support records for every month
 Q.party_support_records = [];
 // inflation and unemployment records
 Q.economic_records = [];
 
-// State of the government (1919) for Scheidemann cabinet
-Q.president = "Ebert";
-Q.president_party = 'SPD';
-Q.img_president = "img/EbertFriedrich.webp"
-Q.chancellor = "Scheidemann";
-Q.chancellor_party = 'SPD';
-Q.img_chancellor = "img/ScheidemannPhilipp.png"
-Q.chancellor_position_name = "Reichsministerpräsident";
-Q.reichstag_president = "Fehrenbach";
-Q.reichstag_president_party = "Z";
-Q.img_r_president = "img/FehrenbachConstantin.jpeg"
-Q.spd_in_government = 1;
-Q.z_in_government = 1;
-Q.bvp_in_government = 0;
-Q.other_in_government = 0;
-Q.ddp_in_government = 1;
-Q.dvp_in_government = 0;
-Q.dnvp_in_government = 0;
-Q.uspd_in_government = 0;
-Q.kpd_in_government = 0;
-Q.nsdap_in_government = 0;
-Q.kpd_toleration = 0;
-Q.uspd_toleration = 0;
-Q.sapd_toleration = 0;
-Q.spd_toleration = 0;
-Q.ddp_toleration = 0;
-Q.z_toleration = 0;
-Q.bvp_toleration = 1;
-Q.dvp_toleration = 0;
-Q.other_toleration = 0;
-Q.dnvp_toleration = 0;
-Q.nsdap_toleration = 0;
+
+// State of the government /////////////////////////////////////////////
+
+// budget //////
+Q.budget = 1;
+// total debt limit is 16 before you start hitting financial crises
+Q.total_debt = 0;
+Q.total_debt_limit = 16;
+Q.pause = 0;
+
+Q.president = "Lebrun";
+Q.prime_minister = "Laval";
+Q.prime_minister_party = 'I';
+Q.sfio_in_government = 0;
+Q.prrrs_in_government = 1;
+Q.usr_in_government = 0;
+Q.ad_in_government = 1;
+Q.fr_in_government = 1;
+Q.pcf_in_government = 0;
+Q.pdp_in_government = 1;
 
 Q.in_right_coalition = 0;
-// Weimar coalition = SPD + Z + DDP
-Q.in_weimar_coalition = 1;
-// Grand coalition = SPD + Z + BVP + DDP + DVP
-// also includes the "new grand coalition" of SPD + Z + BVP + DDP + DVP + Others
-Q.in_grand_coalition = 0;
-// Popular front = SPD + KPD + Z + DDP
+// National Republican league = PDP + AD + FR + Others
+Q.in_national_bloc = 0;
+// Republican Concentration = PRRRS + PRS + AD + Others
+Q.in_republican_concentration = 0;
+// Center-right coalition = USR + PRRRS + AD + PDP + FR + Others
+Q.in_center_right_bloc = 1;
+// Left Cartel = SFIO + PRRRS + PRS
+Q.in_left_cartel = 0;
+// National Unity = SFIO + PRS + PRRRS + AD + PDP + FR
+Q.in_national_unity = 0;
+// Popular front = SFIO + PRRRS + PCF + PRS
 Q.in_popular_front = 0;
-// left coalition = SPD + KPD + left-splinters
-Q.in_left_front = 0;
-// emergency government containing the DDP.
+// socialist coalition = SFIO + PCF + PRS
+Q.in_socialist_front = 0;
+// emergency government containing the SFIO
 Q.in_emergency_government = 0;
-Q.in_ddp_majority = 0;
-Q.grand_coalition_failed = 0;
-// if the SPD is ruling as part of a minority government
+Q.in_sfio_majority = 0;
+// if the SFIO is ruling as part of a minority government
 Q.in_minority_government = 0;
-// national unity governmet
+// presidential caretaker government
+Q.in_caretaker_government = 0;
 
-// if you're in a coalition, this is an incremental counter for how many times dissent has happened from the right.
-Q.coalition_dissent = 1;
-// dissent from the KPD, in a popular front or left front government
-Q.kpd_coalition_dissent = 0;
+// popular_front_unity = 8 - pcf_coalition_dissent - prrrs_coalition_dissent
+Q.popular_front_unity = 8;
+Q.coalition_dissent = 0;
+// dissent from the PCF, in a popular front or socialist front government
+Q.pcf_coalition_dissent = 0;
+// dissent from the PRRRS, in a popular front or left cartel government
+Q.prrrs_coalition_dissent = 0;
+// enthusiasm
+Q.popular_front_enthusiasm = 60;
 
-// does the DDP tolerate the government even if it is not a participant?
-Q.ddp_toleration = 0;
+// If the senate relations
+Q.senate_dissent = 0;
+
+// does the SPD tolerate the government even if it is not a participant?
+Q.sfio_toleration = 0;
 
 // is the current government a presidential minority government?
 Q.minority_government = 0;
 
 // ministries - which parties control the ministries?
-// starting with the 1919 cabinet
-// is the agricultural ministry useful at all?
-Q.foreign_minister = 'Brockdorff-Rantzau';
-Q.foreign_minister_party = 'DDP';
-Q.interior_minister = 'Preusz';
-Q.interior_minister_party = 'DDP';
-Q.justice_minister = 'Landsberg';
-Q.justice_minister_party = 'SPD';
-Q.labor_minister = 'Bauer';
-Q.labor_minister_party = 'SPD';
-Q.reichswehr_minister = 'Noske';
-Q.reichswehr_minister_party = 'SPD';
-Q.economic_minister = 'Wissell';
-Q.economic_minister_party = 'SPD';
-Q.finance_minister = 'Schiffer';
-Q.finance_minister_party = 'DDP';
-Q.agriculture_minister = 'Preusz';
-Q.agriculture_minister_party = 'SPD';
+// Source for initial: https://fr.wikipedia.org/wiki/Gouvernement_Laval_IV
+Q.foreign_minister = 'Laval';
+Q.foreign_minister_party = 'I';
+Q.interior_minister = 'Paganon';
+Q.interior_minister_party = 'PRRRS';
+Q.justice_minister = 'Bérard';
+Q.justice_minister_party = 'AD';
+Q.labor_minister = 'Frossard';
+Q.labor_minister_party = 'USR';
+Q.defense_minister = 'Fabry';
+Q.defense_minister_party = 'AD';
+// at the start, there is no economic minister.
+Q.economic_minister = '';
+Q.economic_minister_party = '';
+Q.finance_minister = 'Régnier';
+Q.finance_minister_party = 'PRRRS';
+Q.agriculture_minister = 'Cathala';
+Q.agriculture_minister_party = 'I';
+Q.education_minister = "Roustan";
+Q.education_minister_party = "I";
+Q.colonies_minister = "Rollin";
+Q.colonies_minister_party = "AD";
 
-// had to butcher breusz' name
 
-// Events: what has occurred?
-Q.panzerkreuzer_seen = 0;
-Q.panzerkreuzer_funded = 0;
-Q.panzerkreuzer_failed = 0;
-Q.unemployment_insurance_seen = 0;
-Q.unemployment_insurance_threshold = 10;
-Q.blutmai = 0;
-Q.austrian_parliamentary_elections = 0;
-Q.saint_germain_anschluss_ban = 0;
-Q.versailles_vote_seen = 0;
-Q.constitution_ratified = 0;
-Q.kapp_putsch_seen = 0;
-Q.rathenau_assassinated = 0;
-Q.hyperinflation_started = 0;
-Q.socialization_debate_seen = 0;
-Q.eight_hour_day_seen = 0;
-Q.erzberger_assasinated = 0;
+// Foreign Relations ///////////////////////////////////////
+// (uses relationships.qdisplay)
+Q.us_relation = 60;
+Q.uk_relation = 65;
+Q.ussr_relation = 40;
+Q.italy_relation = 22;
+Q.germany_relation = 10;
+Q.spain_relation = 50;
+Q.low_countries_relation = 60;
+Q.poland_relation = 45;
+Q.little_entente_relation = 50;
+
+Q.poland_germany_relation = 40;
+
+// foreign events
+Q.little_entente_broken = 0;
+Q.belgium_neutral = 0;
+
+// Events: what has occurred? //////////////////////////////
+// progress
 
 // have we reformed these institutions to be more democratic?
-Q.judicial_reform = 0;
 Q.bureaucratic_reform = 0;
 Q.military_reform = 0;
 Q.womens_rights = 0;
-// level of welfare relative to 1928 (can go negative)
-Q.welfare = 0;
+// social welfare: have we implemented national unemployment insurance?
+Q.unemployment_insurance = 0;
+// Have we implemented a national pension system?
+Q.pensions = 0;
+// Have we implemented national health insurance?
+Q.healthcare = 0;
 // level of support for farmers
 Q.agricultural_policy = 0;
 Q.land_reform = 0;
-// works-creation programs (i.e. WTB-plan) - how much have they implemented?
+// public works programs - how much have they implemented?
 Q.works_program = 0;
-Q.wtb_implemented = 0;
-// Relations with the Western countries (France, UK).
-Q.west_relation = 0;
-// Relations with the Eastern countries (Poland, Czechoslovakia)
-Q.east_relation = 0;
-// Relations with the Soviet Union
-Q.soviet_relation = 0;
-// How much have we exposed the secret rearmament programs?
-Q.rearmament_exposed = 0;
-// reparations vs baseline: young plan is -1.
-Q.reparations = 0;
-Q.reparations_negotiation = 0;
+
+
 // nationalization_progress is part of the left economic plan.
-Q.nationalization_progress = 0;
-// socializations is part of the economic democracy card.
+Q.nationalization = 0;
 Q.socializations = 0;
-Q.nationalize_budget = 4;
 // have there been any factory takeovers?
 Q.factory_takeovers = 0;
-// progress on the moderate economic plan
-Q.moderate_plan_progress = 0;
-// European Union negotiation process
-Q.eu = 0;
-Q.eu_progress = 0;
-// science/education
+
+// science: have we funded science?
 Q.science = 0;
 Q.education_science = 0;
+Q.nuclear_science = 0;
 
-// Tax rates relative to 1928 baseline
+// Tax rates...
 Q.lower_tax_rates = 0;
-Q.upper_tax_rates = 0;
+Q.upper_tax_rates = -1;
 Q.tariffs = 0;
 
-Q.electoral_threshold = 0;
-
 // our conduct in the government, and the conduct of our coalition opponents.
-// did the DDP vote against the previous government in a vote of no confidence?
-Q.ddp_no_confidence = 0;
-// was the last DDP government taken down in a vote of no confidence by right-wing coalition partners?
-Q.no_confidence_against_ddp = 0;
+// did the SFIO vote against the previous government in a vote of no confidence?
+Q.sfio_no_confidence = 0;
+// was the last SFIO government taken down in a vote of no confidence by right-wing coalition partners?
+Q.no_confidence_against_sfio = 0;
 
-// (dynamic) party_colours - mostly major and dynmaic parties, thanks to KurtRosenfeld for making this idea which has made life so much easier for me at times.
-
-Q.spd_colour = '#c00000';
-Q.kpd_colour = '#700000';
-Q.sapd_colour = '#9B0000';
-Q.uspd_colour = '#D47B9B';
-Q.aspd_colour = '#fe9e00';
-Q.ussr_colour = '#750e0e';
-Q.ddp_colour = '#D3C24D';
-Q.lvp_colour = '#FFCC00';
-Q.z_colour = '#000000';
-Q.bvp_colour = '#A2D8E0';
-Q.dvp_colour = '#D5AC27';
-Q.dnvp_colour = '#3E88B3';
-Q.dnf_colour = '#003755';
-Q.dap_colour = '#524732';
-Q.nsdap_colour = '#7A3C00';
-Q.i_colour = '#808080';
-Q.dhp_colour = '#63C489';
-Q.wp_colour = '#CCAA7A';
-Q.nl_colour = '#c5f062';
-Q.rs_colour = '#e3c35b';
-Q.pf_colour = '#a685a2';
-Q.ll_colour = '#edd94c';
-Q.sl_colour = '#d4d68b';
-
-// Advisors/Leaders
+// Maximum number of advisors/Leaders
 Q.n_advisors = 3;
-// timer - this decrements by 1 every turn, and is set to 5 whenever an advisor action is used, so that you can only use one advisor action every 5 months.
-// let's just put all of the timers here...
-// most party affairs and government affairs cards are on a timer.
-Q.timers = ['advisor_action', 'confronting_nazis', 'crisis_program',
-            'fundraising', 'ideology',
-            'inter_party_relationships', 'international_relations',
-            'iron_front', 'media', 'enemies',
-            'party_organizations', 'rally', 'reichsbanner',
-            'shuffle_leadership', 'streetfighting', 'peoples_party',
-            'party_disunity',
-            // govt
-            'agricultural_policy', 'domestic_enemies', 'fiscal_policy',
-            'foreign_policy', 'judiciary', 'labor_affairs', 'military_policy',
-            'police', 'prussian_affairs', 'shuffle_cabinet', 'social_welfare',
-            'homosexual_rights', 'economic_policy', 'coalition_affairs',
-            'war_guilt', 'womens_rights', 'economic_democracy',
-            'dealing_with_toleration',
-            'constitutional_reform', 'labor_rights',
-            'education_science', 'curriculum',
-            // events
-            'emergency_cuts', 'unemployment_insurance',
-            'sa_ban', 'sh_ban', 'papen_chancellor',
-            'kpd_policy', 'kpd_ultimatum', 'popular_front_dispute',
-            'high_inflation', 'banking_crisis', 'march_on_berlin',
-            'understanding_enemy', 'schleichers_schemes'];
+// Advisor action timer
+Q.advisor_cooldown = 5;
 Q.advisor_action_timer = 0;
-// party affairs timers
-Q.confronting_nazis_timer = 0;
-Q.crisis_program_timer = 0;
-Q.fundraising_timer = 0;
-Q.ideology_timer = 0;
-Q.inter_party_relationships_timer = 0;
-Q.international_relations_timer = 0;
-Q.iron_front_timer = 0;
-Q.media_timer = 0;
-Q.enemies_timer = 0;
-Q.party_organizations_timer =  0;
-Q.rally_timer = 0;
-Q.reichsbanner_timer = 0;
-Q.shuffle_leadership_timer = 0;
-Q.streetfighting_timer = 0;
-Q.peoples_party_timer = 0;
+
+
 // n_elections is the number of elections that have happened since the start of the game.
 Q.n_elections = 0;
 // number of elections without a clear majority.
 Q.no_majority_elections = 0;
 // elections are not on a timer, but rather there is an indicator for whether you're in an electoral cycle.
 Q.in_election = 1;
-Q.next_election_year = 1920;
-Q.next_election_month = 6;
-Q.next_election_time = 18;
-// government affairs timers
-Q.agricultural_policy_timer = 0;
-Q.domestic_enemies_timer = 0;
-Q.economic_policy_timer = 0;
-Q.fiscal_policy_timer = 0;
-Q.foreign_policy_timer = 0;
-Q.judiciary_timer = 0;
-Q.labor_affairs_timer = 0;
-Q.military_policy_timer = 0;
-Q.police_timer = 0;
-Q.prussian_affairs_timer = 0;
-Q.shuffle_cabinet_timer = 0;
-Q.social_welfare_timer = 0;
-Q.war_guilt_timer = 0;
-Q.womens_rights_timer = 0;
-Q.homosexual_rights_timer = 0;
-Q.economic_democracy_timer = 0;
-Q.coalition_affairs_timer = 0;
-// event timers
-Q.emergency_cuts_timer = 0;
-Q.unemployment_insurance_timer = 0;
-Q.sa_ban_timer = 0;
-Q.sh_ban_timer = 0;
-Q.kpd_ultimatum_timer = 0;
-Q.march_on_berlin_timer = 0;
+Q.next_election_year = 1936;
+Q.next_election_month = 5;
+Q.next_election_time = 5;
 
-// Sammlung advisors
-Q.koch_weser_advisor = 1; // Erich Koch-Weser
-Q.gessler_advisor = 0;
-Q.kulz_advisor = 0;
+Q.timers = [];
 
-// Linksliberale advisors
-Q.naumann_advisor = 1; // Friedrich Neumann
-Q.heuss_advisor = 0;      // Theodor Heuss
-Q.baeumer_advisor = 0;
-Q.erkelenz_advisor = 0;
-Q.luders_advisor = 0;
-Q.bernhard_advisor = 0;
-Q.lemmer_advisor = 0;
+// Note: we don't need to pre-declare all timers here because we just iterate through every variable looking for timers.
 
-// Nationalliberale advisors
-Q.dietrich_advisor = 0;   // not yet nationally prominent in 1919
-Q.meyer_advisor = 1;      // Oscar Meyer
-Q.hopker_aschoff_advisor = 0;
-Q.stolper_advisor = 0;
+// SFIO Centrists and reformists
+Q.blum_advisor = 1; // Léon Blum
+Q.faure_advisor = 1; // Paul Faure
+Q.auriol_advisor = 1; // Vincent Auriol
 
-// Pazifisten advisors
-Q.quidde_advisor = 0;
-Q.tantzen_advisor = 0;
-Q.von_schoenaich_advisor = 0;
-Q.luth_advisor = 0;
+// SFIO left
+Q.pivert_advisor = 0; // Marceau Pivert
+Q.zyromski_advisor = 0; // Jean Zyromski
 
-// Nonfactional/technocratic advisors
-Q.abegg_advisor = 0;
+// SFIO Government
+Q.salengro_advisor = 0; // Roger Salengro (interior)
+Q.salengro_dead = 0;
+Q.dormoy_advisor = 0; // Marx Dormoy (interior)
+Q.spinasse_advisor = 0; // Charles Spinasse (National Economy)
+Q.bedouce_advisor = 0; // Albert Bedouce (Public Works)
+Q.moutet_advisor = 0; // Marius Moutet (Colonies)
+Q.lebas_advisor = 0; // Jean-Baptiste Lebas (Labor)
+Q.lacore_advisor = 0; // Suzanne Lacore
+Q.lagrange_advisor = 0; // Léo Lagrange (Sports)
 
+// Popular Frontists
+Q.daladier_advisor = 0; // Edouard Daladier (PRRRS)
+Q.thorez_advisor = 0; // Maurice Thorez (PCF)
+Q.paul_boncour_advisor = 0; // Joseph Paul-Boncour (URS)
+Q.jouhaux_advisor = 0; // Léon Jouhaux (CGT)
+// Nonfactional Popular Front Advisors
+Q.joliot_curie_advisor = 0; //Irène Joliot-Curie
+Q.brunschvicg_advisor = 0; //Cécile Brunschvicg
+
+// Secret advisors
+Q.ho_advisor = 0; // Ho Chi Minh
+Q.lamine_gueye_advisor = 0; // Amadou Lamine-Guèye
+Q.guerin_advisor = 0; // Daniel Guérin
+Q.degaulle_advisor = 0; // Charles De Gaulle
 !}
-
-
-> *"All peoples of the Earth have for centuries and millennia occupied themselves with how to emerge from hardships and difficulties, and how to solve the hardships that arise from economic life, the injustices that flow from it. The National Assembly is occupied with this; all thinking minds in Germany are doing so, and we have after all, not known that in our own narrow circle we had a man who had solved these questions long ago; this man, the speaker of the Independent Party who spoke before me, and who proclaimed to us the idealism of the council system (Rätesystem). A solution is ready for everything with him; that is a advice that is given here and there, into which people are integrated who previously existed, but whose light appears relatively small. And they solve all that for us, which was not possible for all other people. I believe that when a speaker steps before the National Assembly and proclaims such an idealism, such statements cannot really be taken seriously. For I am of the opinion that this is a kind of children's play, where one does not really know what one is up to: one believes one can scoop out and settle the things, while in reality, one pushes them ahead in a childish manner."*
-
- - Anton Erkelenz, *Vol. 326, 23rd Session. Speech to the National Assembly*, 1919
-
-This is a game of alternate history. While historical accuracy is a major concern, keep in mind that this is a *game*, and that any divergence from actual events will necessarily have to involve simplifications and speculation.
-
-For more information on the politics and government of the German Republic, see the "Library" page on the top left. If this is your first time playing the game, it is strongly recommended that you read the overview.
-
-- @1919_easy: Begin (easy difficulty)
-- @1919_main: Begin (normal difficulty)
-- @1919_hard: Begin (hard difficulty)
-- @1919_historical: Begin (historical mode)
-
-@1919_hard
-on-arrival: difficulty = 1; resources = 0; dues = 1; freikorps_strength = 500; nationalliberale_dissent = 10; sammlung_dissent = 6; linksliberale_dissent = 8; pazifisten_dissent = 10; z_relation = 50; spd_relation = 45; dvp_relation = 20; budget = 1;
-go-to: 1919_main
-
-@1919_historical
-subtitle: Saving, loading, and polls will be disabled. [? if not achievement_game_completed: Not recommended for a first playthrough. ?]
-on-arrival: {!
-Q.difficulty = 2;
-Q.historical_mode = 1;
-Q.resources = 2;
-Q.dues = 1;
-Q.freikorps_strength = 400;
-Q.nationalliberale_dissent = 10;
-Q.sammlung_dissent = 6;
-Q.linksliberale_dissent = 8;
-Q.pazifisten_dissent = 10;
-Q.z_relation = 50;
-Q.spd_relation = 55;
-Q.dvp_relation = 20;
-Q.budget = 2;
-
-this.state.disableSaves = true;
-!}
-go-to: 1919_main
-
-@1919_easy
-on-arrival: difficulty = -1; resources = 4; dues = 3; sh_strength = 150; kpd_relation = 8; z_relation = 65; spd_relation = 70; budget = 4;
-go-to: 1919_main
-
-@1919_main
-audio: shuffle music/HochdieFreiheit_Reichsbanner-Marsch.mp3 music/Die-freie-Republik-_German-folk-song__-English-translation_-_Reupload-Dr.-Ludwig_-_AYxB0wrgulI_.mp3 music/Die-Garde-der-Republik-Reichsbanner-Marsch-_HQ_-_d0R2ZXxp_2E_.mp3 music/Reichsbanner-Marsch-_In-Kümmernis-und-Dunkelheit_-HQ-_BMb_f9hEN08_.mp3 music/Treu-zur-Fahne-Reichsbanner-Marsch-_HQ_-_nQLiylGeN34_.mp3 music/＂Heckerlied＂-German-Revolutionary-Song-_y2pzysdtA7E_.mp3 music/Die-freie-Republik-_German-folk-song__-English-translation_-_Reupload-Dr.-Ludwig_-_AYxB0wrgulI_.mp3
 new-page: true
-go-to: main if difficulty >= 0; main.main_easy if difficulty < 0
+set-bg: img/map_2.jpg
+  
+> *"No one knows better than I that my generation failed in its task. Yet I do not propose to defend it, but rather to try to point out to the rising generation—and to those to whom we shall pass on our burdens tomorrow—what can be learnt from our mistakes, our illusions and our misfortunes. That lesson will be of more use to others than to us."*
 
-= **1919**
+> *"Léon Blum, *For All Mankind (À l'échelle humaine)*, 1941"*
+
+This is a game of alternate history. While historical accuracy is a major concern, keep in mind that this is a *game*, and that any divergence from actual events will necessarily have to involve some element of make-believe. Nevertheless, please let the author know if there are any glaring mistakes.
+
+For more information on the politics and government of the French Third Republic, see the "Library" page on the top left. If this is your first time playing the game, it is recommended that you read at least some of this information.
+
+- @1936_easy: Begin (easy difficulty)
+- @1936_main: Begin (normal difficulty)
+- @1936_hard: Begin (hard difficulty)
+
+@1936_hard
+on-arrival: {!Q['difficulty'] = 1;
+Q['resources'] = 2;
+Q['dues'] = 1;
+Q['budget'] = 0;
+Q['global_max_gov_actions'] = 5;
+Q['global_max_gov_actions_coalition'] = 2;
+Q['total_debt_limit'] = 10;
+Q['advisor_cooldown'] = 6;
+Q['senate_relation'] = 40;!}
+go-to: 1936_main
+
+@1936_easy
+on-arrival: {!Q['difficulty'] = -1;
+Q['resources'] = 4;
+Q['dues'] = 3;
+Q['pcf_relation'] = 60;
+Q['prrrs_relation'] = 60;
+Q['ad_relation'] = 40;
+Q['budget'] = 2;
+Q['global_max_gov_actions'] = 7;
+Q['global_max_gov_actions_coalition'] = 4;
+Q['total_debt_limit'] = 20;
+Q['advisor_cooldown'] = 4;
+Q['senate_relation'] = 50;!}
+go-to: 1936_main
+                               
+@1936_main
+go-to: main if {!return ((Q['difficulty'] || 0) >= 0);!}; main.main_easy if {!return ((Q['difficulty'] || 0) < 0);!}
+new-page: true
+audio: shuffle music/LaVoixduFrontPopulaire.mp3 music/MaBlondeAllonsAuDevantDeLaVie.mp3 music/FaureFantasie.ogg music/LaMarseillaiseAldaNormalized.mp3 music/InternationaleGhasneNormalized.mp3 music/LeDrapeauRouge.mp3 music/LeChantDesJeunesGardes.mp3 music/MaBlondeAllonsAuDevantDeLaVie.mp3 music/LaMarseillaiseAldaNormalized.mp3
+
+= 1936
+
+Ever since the anti-parliamentary riots of February 1934, French democracy has been in a state of crisis. Fear of a far-right coup has catalyzed the formation of a Popular Front, for the first time bringing the Socialists, Communists, Radicals, and trade unions into a political alliance against incipient fascism. In addition, French workers have been feeling the weight of the Great Depression and Prime Minister Laval's policies of austerity. Abroad, fascist Italy is engaging in imperialist expansionism and Nazi Germany is rapidly remilitarizing. France is deeply divided between confrontation and appeasement towards the dictators.
+
+Will the Popular Front bring bread, peace, and liberty to France? Elections will be held this year, and the people's hopes are high.
