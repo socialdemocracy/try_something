@@ -58,16 +58,18 @@ Economic growth: [+ economic_growth_2 +]%
 
 = Inter-Party Relations
 
-<hr>
-
 <span style="color: var(--pcf);">**PCF**</span>: [+ pcf_relation : relationships +]
 
 <span style="color: var(--prrrs);">**PRRRS**</span>: [+ prrrs_relation : relationships +]
 
 <span style="color: var(--usr);">**USR + Misc. Left**</span>: [+ usr_relation : relationships +]
 
-<span style="color: var(--ard);">**AD**</span>: [+ ard_relation : relationships +]
+<span style="color: var(--ard);">**AD**</span>: [+ ad_relation : relationships +]
 
 <span style="color: var(--fr);">**FR**</span>: [+ fr_relation : relationships +]
 
 <span style="color: var(--pdp);">**PDP + Misc. Right**</span>: [+ pdp_relation : relationships +]
+
+= Party Leadership
+
+<span style="color: var(--pcf);">**PCF**</span>: Communism ([+ pcf_leader +])
