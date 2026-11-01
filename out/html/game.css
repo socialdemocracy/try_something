@@ -541,12 +541,12 @@ table {
 :root {
     --pcf: #bb0000;
     --sfio: #E9383F;
-    --prrrs: #FFABAB;
-    --usr: #FF5E4D;
-    --pdp: #00FFFF;
-    --ard: #a5c1df;
+    --prrrs: #E0B0FF;
+    --usr: #FF6699;
+    --pdp: #00CCCC;
+    --ard: #FFBF00;
     --fr: #24445c;
-    --psop: #dd0000; 
+    --psop: #B22222; 
     --ppf: #002654;
     --psf: #000;
 }
