@@ -5,10 +5,10 @@ go-to: start_menu
 new-page: true
 go-to: start_menu_2
 
+@start_menu_2
+
 = Social Democracy: Popular Front
 
-@start_menu_2
-  
 - @start: Start game
 
 @start
