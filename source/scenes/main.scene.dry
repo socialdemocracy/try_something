@@ -1,4 +1,3 @@
-@main
 title: Next month
 on-arrival: {!if (Q.advisor_action_timer <= 0) {
     Q.pinnedCardsDescription = 'Advisors - an action is available.';
