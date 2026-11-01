@@ -15,6 +15,7 @@ max-cards: 3
   
 - @party
 - @govt
+- #advisor
 
 @main_easy
 on-arrival: {!if (Q.advisor_action_timer <= 0) {
@@ -33,6 +34,7 @@ max-cards: 5
 
 - @party
 - @govt
+- #advisor
 
 @party
 title: Party Affairs
