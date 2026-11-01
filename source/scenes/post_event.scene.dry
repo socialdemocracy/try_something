@@ -1,0 +1,493 @@
+title: Post Event
+on-arrival: {!Q.last_advisor_action = 0;
+Q.last_cabinet_action = 0;
+// make sure no stat is below 0.
+
+// opinions
+Q.pro_republic = Math.round(Q.pro_republic);
+Q.nationalism = Math.round(Q.nationalism);
+Q.socialism = Math.round(Q.socialism);
+Q.pacifism = Math.round(Q.pacifism);
+
+// normalize variables
+if (Q.pro_republic < 0) {
+    Q.pro_republic = 0;
+}
+if (Q.pro_republic >= 100) {
+    Q.pro_republic = 99;
+}
+
+if (Q.unemployed <= 1) {
+    Q.unemployed = 1;
+}
+if (Q.antifascism <= 0) {
+    Q.antifascism = 0;
+}
+if (Q.antifascism >= 99) {
+    Q.antifascism = 99;
+}
+if (Q.socialism <= 0) {
+    Q.socialism = 0;
+}
+if (Q.socialism >= 99) {
+    Q.socialism = 99;
+}
+if (Q.popular_front_enthusiasm <= 0) {
+    Q.popular_front_enthusiasm = 0;
+}
+if (Q.popular_front_enthusiasm >= 99) {
+    Q.popular_front_enthusiasm = 99;
+}
+if (Q.prrrs_coalition_dissent < 0) {
+    Q.prrrs_coalition_dissent = 0;
+}
+if (Q.pcf_coalition_dissent < 0) {
+    Q.pcf_coalition_dissent = 0;
+}
+if (Q.senate_dissent < 0) {
+    Q.senate_dissent = 0;
+}
+
+
+// re-calculate party support
+// calculate normalized class voting for the achievements
+for (var c of Q.classes) {
+    var class_votes = 0;
+    for (var party of Q.parties) {
+        if (Q[c+'_'+party] < 0) {
+            Q[c+'_'+party] = 0;
+        }
+        class_votes += Q[c+'_'+party];
+    }
+    for (var party of Q.parties) {
+        Q[c + '_' + party + '_normalized'] = 100*Q[c+'_'+party]/class_votes;
+        Q[c + '_' + party + '_display'] = Math.round(100*Q[c+'_'+party]/class_votes);
+    }
+}
+// calculate support for each of the parties
+var total_support = 0;
+for (var party of Q.parties) {
+    var party_support = 0;
+    for (var c of Q.classes) {
+        if (Q.old_demographics) {
+            party_support += Q[c]*Q[c+'_'+party];
+        } else  {
+            party_support += Q[c]*Q[c+'_'+party+'_normalized'];
+        }
+    }
+    Q[party + '_support'] = party_support;
+    total_support += party_support;
+}
+// 2. normalize support (fraction)
+for (var party of Q.parties) {
+    Q[party+'_normalized'] = Q[party + '_support']/total_support;
+    Q[party+'_votes'] = Math.round(Q[party+'_normalized']*100);
+    Q[party + '_votes_disp'] = Q[party+'_normalized'].toFixed(1);
+    Q[party+'_votes_display'] = Math.round(Q[party+'_normalized']*100);
+}
+
+// set faction strength/dissent to 0
+for (var c of Q.factions) {
+    if (Q[c+'_dissent'] < 0) {
+        Q[c+'_dissent'] = 0;
+    } else if (Q[c+'_dissent'] >= 100) {
+        Q[c+'_dissent'] = 99;
+    }
+    if (Q[c+'_strength'] < 0) {
+        Q[c+'_strength'] = 0;
+    }
+}
+// re-calculate dissent.
+var total_strength = 0;
+for (var c of Q.factions) {
+    total_strength += Q[c+'_strength'];
+}
+// normalize strength for the different factions
+var total_dissent = 0;
+for (var c of Q.factions) {
+    Q[c+'_strength'] = 100*Q[c+'_strength']/total_strength;;
+    total_dissent += Q[c+'_strength']*Q[c+'_dissent'];
+}
+
+Q.dissent = 0.01*total_dissent/total_strength;
+Q.dissent_percent = Q.dissent*100;
+console.log('new dissent: ' + Q.dissent);
+
+if (Q.dissent < 0) {
+    Q.dissent = 0;
+} else if (Q.dissent > 0.95) {
+    Q.dissent = 0.95;
+}
+
+// normalize support for party econ and foreign policies
+var total_econ = 0;
+for (var c of Q.economic_policies) {
+    if (Q[c+'_support'] < 0) {
+        Q[c+'_support'] = 0;
+    }
+    total_econ += Q[c+'_support'];
+}
+for (var c of Q.economic_policies) {
+    Q[c+'_support'] = 100*Q[c+'_support']/total_econ;
+}
+var total_foreign = 0;
+for (var c of Q.foreign_policies) {
+    if (Q[c+'_support'] < 0) {
+        Q[c+'_support'] = 0;
+    }
+    total_foreign += Q[c+'_support'];
+}
+for (var c of Q.foreign_policies) {
+    Q[c+'_support'] = 100*Q[c+'_support']/total_foreign;
+}
+
+// calculate economic stats
+// TODO: demand and supply slopes
+Q.p_max = Q.max_supply;
+Q.qs_eq = (Q.max_demand - Q.supply_intercept)/(Q.supply_slope + Q.demand_slope);
+Q.p_eq = Q.max_demand - Q.demand_slope*Q.qs_eq;
+if (Q.qs_eq > Q.max_supply) {
+    Q.qs_eq = Q.max_supply;
+    Q.p_eq = Q.max_demand - Q.max_supply;
+}
+// Use economic stats to calculate shifts in economic growth/inflation
+Q.economic_growth = 100*(Q.qs_eq - Q.qs_curr)/(Q.qs_curr*2);
+Q.inflation = Q.monetary_inflation + 100*(Q.p_eq - Q.p_curr)/(Q.p_curr*2);
+
+// 1. update dates
+if ((Q.month_actions >= Q.max_actions) || (Q.month_gov_actions >= Q.max_gov_actions)) {
+    Q.time += 1;
+    Q.time_in_government += 1;
+    Q.month_actions = 0;
+    Q.month_party_actions = 0;
+    Q.month_gov_actions = 0;
+    Q.month += 1;
+    if (Q.sfio_in_government) {
+        if (Q.prime_minister_party == "SFIO") {
+            // scale this based on popular_front_enthusiasm
+            if (Q.pcf_in_government) {
+                Q.max_gov_actions = Math.round(Q.popular_front_enthusiasm/100*(Q.global_max_gov_actions - Q.pcf_coalition_dissent - Q.prrrs_coalition_dissent - Math.floor(Q.senate_dissent/2)));
+            } else {
+                Q.max_gov_actions = 1;
+            }
+        } else {
+            if (Q.pcf_in_government) {
+                Q.max_gov_actions = Math.round(Q.popular_front_enthusiasm/100*(Q.global_max_gov_actions_coalition - Q.pcf_coalition_dissent - Q.prrrs_coalition_dissent - Math.floor(Q.senate_dissent/2)));
+            } else {
+                Q.max_gov_actions = 1;
+            }
+        }
+        if (Q.max_gov_actions < 1) {
+            Q.max_gov_actions = 1;
+        }
+        if (Q.pause && Q.max_gov_actions > 1) {
+            Q.max_gov_actions = 1;
+        }
+        if (!Q.pcf_in_government && Q.max_gov_actions > 1) {
+            Q.max_gov_actions = 1;
+        }
+        if (Q.time_in_government <= 1 && Q.max_gov_actions < 5 && Q.popular_front_enthusiasm >= 50) {
+            Q.max_gov_actions = 5;
+        }
+        if (Q.time_in_government <= 2 && Q.max_gov_actions < 3 && Q.popular_front_enthusiasm >= 50) {
+            Q.max_gov_actions = 3;
+        }
+        Q.max_actions = Q.max_gov_actions;
+    } else {
+        Q.max_actions = 1;
+    }
+    if (Q.month >= 13) {
+        Q.month = 1;
+        Q.year += 1;
+        if (Q.historical_mode) {
+            Q.resources += 2;
+        }
+    }
+
+    // decrement timers
+    for (var field in Q) {
+        if (field.endsWith("_timer") && Q[field] > 0) {
+            Q[field] -= 1;
+        }
+    }
+    /////////////////////////////////////////// economics
+
+    // increment supply/demand growth
+    Q.max_demand += Q.monthly_demand_growth;
+    Q.max_supply += Q.monthly_supply_growth;
+
+    // calculate economic stats
+    Q.p_max = Q.max_supply;
+    Q.qs_eq = (Q.max_demand - Q.supply_intercept)/(Q.supply_slope + Q.demand_slope);
+    Q.p_eq = Q.max_demand - Q.demand_slope*Q.qs_eq;
+    if (Q.qs_eq > Q.max_supply) {
+        Q.qs_eq = Q.max_supply;
+        Q.p_eq = Q.max_demand - Q.max_supply;
+    }
+    // Use economic stats to calculate shifts in economic growth/inflation
+    if (Q.budget > 0 && Q.monetary_inflation > 1) {
+        Q.monetary_inflation -= 0.2;
+    }
+    Q.economic_growth = 100*(Q.qs_eq - Q.qs_curr)/(Q.qs_curr*2);
+    Q.inflation = Q.monetary_inflation + 100*(Q.p_eq - Q.p_curr)/(Q.p_curr*2);
+
+    // change economic stats...
+    // we're basically implicity drawing a Philips curve
+    // budget deficits lead to some inflation
+    if (Q.budget <= 0 && Q.budget > -2 && Q.inflation < 2.5) {
+        Q.monetary_inflation += 0.1;
+    }
+    if (Q.budget <= -2 && Q.budget > -5 && Q.inflation < 5) {
+        Q.inflation += 0.1;
+        if (Q.unemployed >= 12) {
+            Q.inflation -= 0.1;
+        }
+    }
+    if (Q.budget <= -5 && Q.inflation < 10) {
+        Q.inflation += 0.2;
+        if (Q.unemployed >= 15) {
+            Q.inflation -= 0.1;
+        }
+    }
+
+    // deflation is bad
+    if (Q.inflation < -0.5 && Q.inflation > -5 && Q.unemployed < 15) {
+        Q.unemployed += 0.2;
+    }
+    if (Q.inflation <= -5 && Q.unemployed < 20) {
+        Q.unemployed += 0.3;
+    }
+    // economic growth
+    if (Q.economic_growth < -1 && Q.unemployed <= 10) {
+        Q.unemployed += 0.1;
+    }
+    if (Q.economic_growth < -5 && Q.unemployed <= 20) {
+        Q.unemployed += 0.1;
+    }
+    if (Q.economic_growth >= 2 && Q.unemployed >= 9) {
+        Q.unemployed -= 0.1;
+    }
+    if (Q.economic_growth >= 4 && Q.unemployed >= 7) {
+        Q.unemployed -= 0.1;
+    }
+    if (Q.economic_growth >= 6 && Q.unemployed >= 5) {
+        Q.unemployed -= 0.1;
+    }
+    if (Q.economic_growth >= 8 && Q.unemployed >= 3) {
+        Q.unemployed -= 0.1;
+    }
+    if (Q.economic_growth >= 4 && Q.inflation >= 7.5) {
+        Q.economic_growth -= 0.1;
+    }
+    if (Q.economic_growth >= -2.5 && Q.inflation <= -5) {
+        Q.economic_growth -= 0.1;
+    }
+    if (Q.economic_growth >= 7) {
+        Q.economic_growth -= 0.1;
+    }
+    if (Q.economic_growth >= 10) {
+        Q.economic_growth -= 0.2;
+    }
+    if (Q.economic_growth >= 12) {
+        Q.economic_growth -= 0.3;
+    }
+    // adjust current economic stats
+    Q.p_curr += Q.p_curr*Q.inflation/(100*12);
+    Q.qs_curr += Q.qs_curr*Q.economic_growth/(100*12);
+
+    // append to historical party support records
+    var party_support_results = {'date': new Date(Q.year, Q.month - 1)};
+    for (var party of Q.parties) {
+        party_support_results[party] = Q[party + '_normalized']*100;
+    }
+    Q.party_support_records.push(party_support_results);
+    Q.economic_records.push({'date': new Date(Q.year, Q.month - 1),
+                             'inflation': Q.inflation,
+                             'unemployment': Q.unemployed,
+                             'growth': Q.economic_growth});
+    //////////////////////////////// Education & Science support/economic changes
+
+    // accumulated economic growth/decline
+    // Maybe there should be differences for positive/negative growth?
+    if (Q.economic_growth < 0) {
+        // negative growth has higher effects than positive growth
+        if (Q.economic_expansion > 0) {
+            Q.economic_expansion += 2*Q.economic_growth;
+        } else {
+            Q.economic_expansion += Q.economic_growth;
+        }
+    }
+    if (Q.economic_growth > 0) {
+        if (Q.economic_expansion < 0 && !Q.sfio_in_government) {
+            Q.economic_expansion = 0;
+        }
+        Q.economic_expansion += Q.economic_growth;
+    }
+    /////////////////////////////// update opinions based on economy
+    if (Q.unemployed > 15 && Q.pro_republic > 40) {
+        Q.pro_republic -= 1;
+    }
+    if (Q.unemployed > 30 && Q.pro_republic > 20) {
+        Q.pro_republic -= 1;
+    }
+    if (Q.inflation >= 8 && Q.pro_republic > 40) {
+        Q.pro_republic -= 1;
+    }
+
+    /////////////////////////////////////////// Military
+    // domestic military production
+    var production = 0;
+    for (var unit of Q.army_units) {
+        Q[unit+'_progress'] += Q[unit+'_production'];
+        production = Math.floor(Q[unit+'_progress']);
+        if (production >= 1) {
+            Q[unit+'_units'] += production;
+            if (Q.in_war) {
+                Q['reserve_' + unit + '_units'] += production;
+            }
+            Q[unit+'_progress'] -= production;
+        }
+    }
+    for (var unit of Q.german_units) {
+        Q['german_'+unit+'_progress'] += Q['german_'+unit+'_production'];
+        production = Math.floor(Q['german_'+unit+'_progress']);
+        if (production >= 1) {
+            Q['german_'+unit+'_units'] += production;
+            Q['german_'+unit+'_progress'] -= production;
+            if (Q.in_war) {
+                Q['german_reserve_' + unit + '_units'] += production;
+            }
+        }
+    }
+
+    ////////////////////////// annual support changes
+
+    // prevent forever support if the economy is bad
+    if ((Q.inflation >= 8 || Q.unemployed >= 15 || Q.economic_growth < -1)) {
+        if (Q.sfio_in_government) {
+            if (Q.workers_sfio_normalized > 15) {
+                Q.workers_sfio -= 6/12;
+            }
+            if (Q.unemployed_sfio_normalized > 15) {
+                Q.unemployed_sfio -= 6/12;
+            }
+            if (Q.new_middle_sfio_normalized > 15) {
+                Q.new_middle_sfio -= 6/12;
+            }
+            if (Q.old_middle_sfio_normalized > 15) {
+                Q.old_middle_sfio -= 6/12;
+            }
+            if (Q.rural_sfio_normalized > 15) {
+                Q.rural_sfio -= 6/12;
+            }
+            if (Q.catholics_sfio_normalized > 15) {
+                Q.catholics_sfio -= 6/12;
+            }
+            Q.popular_front_enthusiasm -= 2;
+            if (Q.difficulty >= 0) {
+                Q.prrrs_relation -= 1;
+                Q.senate_relation -= 1;
+            }
+        }
+        if (Q.pcf_in_government) {
+            if (Q.workers_pcf_normalized > 15) {
+                Q.workers_pcf -= 3/12;
+            }
+            if (Q.unemployed_pcf_normalized > 15) {
+                Q.unemployed_pcf -= 3/12;
+            }
+        }
+        if (Q.prrrs_in_government) {
+            if (Q.workers_prrrs_normalized > 1) {
+                Q.workers_prrrs -= 4/12;
+            }
+            if (Q.new_middle_prrrs_normalized > 12) {
+                Q.new_middle_prrrs -= 4/12;
+            }
+            if (Q.old_middle_prrrs_normalized > 12) {
+                Q.old_middle_prrrs -= 4/12;
+            }
+            if (Q.rural_prrrs_normalized > 12) {
+                Q.rural_prrrs -= 4/12;
+            }
+        }
+        if (Q.usr_in_government) {
+            if (Q.workers_usr_normalized > 5) {
+                Q.workers_usr -= 4/12;
+            }
+            if (Q.new_middle_usr_normalized > 5) {
+                Q.new_middle_usr -= 4/12;
+            }
+            if (Q.old_middle_usr_normalized > 5) {
+                Q.old_middle_usr -= 4/12;
+            }
+            if (Q.rural_usr_normalized > 5) {
+                Q.rural_usr -= 4/12;
+            }
+        }
+        if (Q.ad_in_government) {
+            if (Q.new_middle_ad_normalized > 15) {
+                Q.new_middle_ad -= 4/12;
+            }
+            if (Q.old_middle_ad_normalized > 15) {
+                Q.old_middle_ad -= 4/12;
+            }
+            if (Q.rural_ad_normalized > 15) {
+                Q.rural_ad -= 4/12;
+            }
+        }
+        if (Q.pdp_in_government) {
+            if (Q.new_middle_pdp_normalized > 5) {
+                Q.new_middle_pdp -= 4/12;
+            }
+            if (Q.old_middle_pdp_normalized > 5) {
+                Q.old_middle_pdp -= 4/12;
+            }
+            if (Q.rural_pdp_normalized > 5) {
+                Q.rural_pdp -= 4/12;
+            }
+        }
+        if (Q.fr_in_government) {
+            if (Q.new_middle_fr_normalized > 15) {
+                Q.new_middle_fr -= 4/12;
+            }
+            if (Q.old_middle_fr_normalized > 15) {
+                Q.old_middle_fr -= 4/12;
+            }
+            if (Q.rural_fr_normalized > 15) {
+                Q.rural_fr -= 4/12;
+            }
+        }
+    }
+}
+Q.has_event = 0;
+// check if there are any cards in #event, and then go to main if not.
+var scene = this.game.scenes['post_event.events_choice'];
+var choices = this._compileChoices(scene);
+if (choices && choices[0].title != "Continue...") {
+    Q.has_event = 1;
+} else {
+    has_event = 0;
+}
+// pre-load all of the event images
+if (this.ui && this.ui.show_portraits) {
+    for (var choice of choices) {
+        var cc = this.game.scenes[choice.id];
+        if (cc.faceImage) {
+            var im = new Image();
+            im.url = cc.faceImage;
+        }
+    }
+}
+
+if (typeof window !== "undefined" && window.generateBar) {
+}!}
+go-to: post_event.events_choice if {!return ((Q['has_event'] || 0)===1);!}; main if {!return (((Q['has_event'] || 0)===0) && ((Q['difficulty'] || 0) >= 0));!}; main.main_easy if {!return (((Q['has_event'] || 0)===0) && ((Q['difficulty'] || 0) < 0));!}
+new-page: true
+
+@events_choice
+
+- #event
+
+# This scene is solely for updating numbers after events, and routing to special events.
+= [+ month : month +] [+ year +]
