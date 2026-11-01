@@ -26,33 +26,13 @@ Party actions remaining: [+ party_actions_remaining +]
 
 Resources available: [+ resources +]
 
-SFIO position: [? if {!return (((Q['sfio_toleration'] || 0)) !== 0);!} : toleration  ?][? if {!return (((Q['sfio_in_government'] || 0)) !== 0);!} : in government -  ?][? if {!return ((((Q['sfio_toleration'] || 0) == 0) && ((Q['sfio_in_government'] || 0) == 0)) && ((Q['sfio_caretaker'] || 0) == 0));!} : opposition  ?][? if {!return (((Q['sfio_caretaker'] || 0)) !== 0);!} : caretaker government  ?] [? if {!return ((((Q['in_national_unity'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : National Unity government  ?][? if {!return ((((Q['in_revolutionary_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : Revolutionary Front  ?][? if {!return ((((Q['in_popular_front'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : Popular Front  ?][? if {!return ((((Q['in_left_cartel'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : Left Cartel  ?][? if {!return ((((Q['in_sfio_majority'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : SFIO majority  ?][? if {!return ((((Q['in_minority_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : minority government  ?][? if {!return ((((Q['in_emergency_government'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : emergency government  ?]
-
-Internal dissent: [+ dissent_percent : dissent +]
-
-Popular Front enthusiasm: [+ popular_front_enthusiasm : enthusiasm +]
-
 = Government
 
 {!<span class="tooltip-text" title="The President of the Republic is officially the head of state and is a mostly ceremonial position.">Président de la République</span>!}: [+ president +]
 
 {!<span class="tooltip-text" title="President of the Council of Ministers - also called the Prime Minister, this is the head of government.">Président du Conseil</span>!}: [+ prime_minister +] ([+ prime_minister_party +])
 
-[? if {!return (!(((Q['sfio_in_government'] || 0)) !== 0));!} : Governing coalition: [? if {!return (((Q['in_national_unity'] || 0)) !== 0);!} : National Unity government  ?][? if {!return (((Q['in_revolutionary_front'] || 0)) !== 0);!} : Revolutionary Front  ?][? if {!return (((Q['in_popular_front'] || 0)) !== 0);!} : Popular Front  ?][? if {!return (((Q['in_left_cartel'] || 0)) !== 0);!} : Left Cartel  ?][? if {!return ((((Q['in_sfio_majority'] || 0)) !== 0) && (((Q['sfio_in_government'] || 0)) !== 0));!} : SFIO majority  ?][? if {!return (((Q['in_minority_government'] || 0)) !== 0);!} : minority government  ?][? if {!return (((Q['in_emergency_government'] || 0)) !== 0);!} : emergency government  ?][? if {!return (((Q['in_center_right_bloc'] || 0)) !== 0);!} : center-right coalition  ?][? if {!return (((Q['in_national_bloc'] || 0)) !== 0);!} : National Bloc  ?][? if {!return (((Q['in_republican_concentration'] || 0)) !== 0);!} : Republican Concentration  ?][? if {!return (((Q['in_caretaker_government'] || 0)) !== 0);!} : caretaker government  ?]  ?]
 
-[? if {!return (((((Q['sfio_in_government'] || 0)) !== 0) && (!(((Q['in_sfio_majority'] || 0)) !== 0))) && (!(((Q['in_left_front'] || 0)) !== 0)));!} : <span class="prrrs"> PRRRS</span> dissent: [+ prrrs_coalition_dissent : coalition_dissent +] <br>  ?] [? if {!return ((((Q['sfio_in_government'] || 0)) !== 0) && (((((Q['in_left_front'] || 0)) !== 0) || (((Q['in_popular_front'] || 0)) !== 0))));!} : <span class="pcf">PCF</span> dissent: [+ pcf_coalition_dissent : coalition_dissent +] <br>  ?] [? if {!return (((Q['sfio_in_government'] || 0)) !== 0);!} : Senate opposition: [+ senate_dissent : coalition_dissent +]  ?]
-
-Chamber of Deputies composition:
-
-{!<span class="tooltip-text sfio" title="French Section of the Worker's International">SFIO</span>!}: [+ sfio_r +]% {!<span class="tooltip-text prrrs" title="Republican, Radical, and Radical-Socialist Party">PRRRS</span>!}: [+ prrrs_r +]% {!<span class="tooltip-text pcf" title="French Communist Party">PCF</span>!}: [+ pcf_r +]% {!<span class="tooltip-text usr" title="Republican Socialist Union and other left-wing parties">USR + Misc. Left</span>!}: [+ usr_r +]% {!<span class="tooltip-text ard" title="Democratic Alliance">AD</span>!}: [+ ad_r +]% {!<span class="tooltip-text pdp" title="Popular Democratic Party + Other right-wing groups">PDP + Misc. Right</span>!}: [+ pdp_r +]% {!<span class="tooltip-text fr" title="Republican Federation">FR</span>!}: [+ fr_r +]%
-
-[? if {!return ((Q['sfio_in_government'] || 0)===1);!} : Budget: [+ budget +]  ?]
-
-Next election: [+ next_election_month : month +] [+ next_election_year +]
-
-= Economics
-
-Inflation: [+ inflation_2 +]%
 
 Unemployment: [+ unemployed_2 +]%
 
