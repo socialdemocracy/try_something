@@ -1,11 +1,5 @@
 title: Root Scene
-go-to: start_menu
-  
-@start_menu
 new-page: true
-go-to: start_menu_2
-
-@start_menu_2
 
 = Social Democracy: Popular Front
 
