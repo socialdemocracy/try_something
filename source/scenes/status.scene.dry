@@ -36,7 +36,7 @@ Popular Front enthusiasm: [+ popular_front_enthusiasm : enthusiasm +]
 
 {!<span class="tooltip-text" title="The President of the Republic is officially the head of state and is a mostly ceremonial position.">Président de la République</span>!}: [? if president_party = "AD": <span style="color: var(--ard);">[+ president +]</span> ?] ([? if president_party = "AD": <span style="color: var(--ard);">**[+ president_party +]**</span>?])
 
-{!<span class="tooltip-text" title="President of the Council of Ministers - also called the Prime Minister, this is the head of government.">Président du Conseil</span>!}: [? if prime_minister_party = "I": <span style="color: #808080;">[+ president +]</span> ?] ([? if prime_minister_party = "I": <span style="color: #808080;">**[+ president_party +]**</span>?])
+{!<span class="tooltip-text" title="President of the Council of Ministers - also called the Prime Minister, this is the head of government.">Président du Conseil</span>!}: [? if prime_minister_party = "I": <span style="color: #808080;">[+ prime_minister +]</span> ?] ([? if prime_minister_party = "I": <span style="color: #808080;">**[+ prime_minister_party +]**</span>?])
 
 Chamber of Deputies composition:
 
