@@ -1,0 +1,29 @@
+title: Return card to hand.
+view-if: {!return ((((Q['difficulty'] || 0) <= 0) && ((Q['last_advisor_action'] || 0)===0)) && ((Q['last_cabinet_action'] || 0)===0));!}
+on-arrival: {!if (Q.month_actions > 0) {
+    Q.month_actions -= 1;
+}
+// if last card had
+// return card to hand
+var card = this.state.lastPlayedCard;
+card.image = card.cardImage;
+if (card.tags.includes("party_affairs") && Q.month_party_actions > 0) {
+    Q.month_party_actions -= 1;
+}
+if (card.tags.includes("govt_affairs") && Q.month_gov_actions > 0) {
+    Q.month_gov_actions -= 1;
+}
+if (Q.difficulty >= 0) {
+    this.state.currentHands['main'].push(card);
+} else {
+    this.state.currentHands['main.main_easy'].push(card);
+}
+// reset the timer...
+if (Q[card.id + "_timer"]) {
+    Q[card.id + "_timer"] = 0;
+}
+// reduce visit count
+if (this.state.visits[card.id]) {
+    this.state.visits[card.id] -= 1;
+}!}
+go-to: root
