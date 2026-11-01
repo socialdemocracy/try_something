@@ -6,8 +6,10 @@ new-page: true
 - @start: Start game
 
 @start
+set-bg: img/map.jpg
+new-page: true
 on-arrival: {!
-  
+
 Q.started = 1;
 // time elapsed (in months)
 Q.time = 1;
@@ -557,7 +559,7 @@ Q.catholics_other = 0;
 // let's just use frwiki (no "other")
 // election results in 1936 (official): https://gallica.bnf.fr/ark:/12148/bpt6k320440p/
 // SFIO: 129/605 according to enwiki, 132/607 according to frwiki
-Q.sfio_r = 21.7
+Q.sfio_r = 21.7;
 // PCF: 12/605 enwiki, 10/607 frwiki
 Q.pcf_r = 1.6;
 // 157/605 enwiki, 160/607 frwiki
