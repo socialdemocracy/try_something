@@ -41,6 +41,7 @@ max-cards: 5
 title: Party Affairs
 is-deck: true
 card-image: img/LePopulaire.jpg
+
 - #party_affairs
 
 @pinned_cards.pc2
@@ -60,4 +61,5 @@ title: Government Affairs
 view-if: {!return ((Q['time'] || 0) >= 6);!}
 is-deck: true
 card-image: img/PalaiseBourbon.jpg
+
 - #govt_affairs
