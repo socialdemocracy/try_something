@@ -97,3 +97,117 @@ Labor unrest: [+ labor_unrest : militancy +]
 **Economic policies**: Classical economics [+ classical_economics_disp +]%, Stimulus [+ stimulus_disp +]%, Planism [+ planism_disp +]%, Socialization [+ socialization_disp +]%
 
 **Foreign policies**: Appeasement [+ appeasement_disp +]%, International Cooperation [+ international_cooperation_disp +]%, Confrontation [+ confrontation_disp +]%
+
+@paramilitaries
+
+= Military
+
+[+ standing_division_units +] standing divisions
+
+[+ reserve_a_units +] A-series reserve divisions
+
+[+ reserve_b_units +] B-series reserve divisions
+
+[+ armored_units +] Armor divisions
+
+[+ aa_units +] Anti-air units
+
+[+ at_units +] Anti-tank units
+
+Fighters: [+ fighter_units +]
+
+Bombers: [+ bomber_units +]
+
+= Military Production
+
+Standing divisions: [+ standing_division_production +]/month
+
+A-series reserve divisions: [+ reserve_a_production +]/month
+
+B-series reserve divisions: [+ reserve_b_production +]/month
+
+Armor divisions: [+ armored_production +]/month
+
+Anti-air: [+ aa_production +]/month
+
+Anti-tank: [+ at_production +]/month
+
+Fighters: [+ fighter_production +]/month
+
+Bombers: [+ bomber_production +]/month
+
+= Foreign Relations
+
+UK: [+ uk_relation : relationships +]
+
+USA: [+ us_relation : relationships +]
+
+USSR: [+ ussr_relation : relationships +]
+
+Low Countries: [+ low_countries_relation : relationships +]
+
+Spain: [+ spain_relation : relationships +]
+
+Poland: [+ poland_relation : relationships +]
+
+Little Entente: [+ little_entente_relation : relationships +]
+
+Italy: [+ italy_relation : relationships +]
+
+Germany: [+ germany_relation : relationships +]
+
+= Internal Security
+
+Right-wing paramilitary strength: [+ right_wing_paramilitary_strength +] thousand members
+
+Right-wing paramilitary militancy: [+ right_wing_paramilitary_militancy : militancy +]
+
+Workers' militia strength : [+ workers_militia_strength +] thousand
+
+Workers' militia militancy: [+ workers_militia_militancy : militancy +]
+
+Interior police strength: [+ interior_police_strength +] thousand
+
+Interior police loyalty: [+ interior_police_loyalty : loyalty +]
+
+Army loyalty: [+ army_loyalty : loyalty +]
+
+
+@polls
+on-arrival: {!Q.pro_republic_disp = Math.round(Q.pro_republic);
+Q.nationalism_disp = Math.round(Q.nationalism);
+Q.socialism_disp = Math.round(Q.socialism);!}
+
+= Projected first-round election results
+
+(Note: elections are held in two rounds with a runoff election. Second-round results may be very different.)
+
+SFIO: [+ sfio_votes +]%
+
+PRRRS: [+ prrrs_votes +]%
+
+PCF: [+ pcf_votes +]%
+
+USR + Misc. Left: [+ usr_votes +]%
+
+AD: [+ ad_votes +]%
+
+FR: [+ fr_votes +]%
+
+PDP + Misc. Right: [+ pdp_votes +]%
+
+**Detailed results for each demographic**
+
+Workers: SFIO: [+ workers_sfio_display +]%, PRRRS: [+ workers_prrrs_display +]%, PCF: [+ workers_pcf_display +]%, USR + Misc. Left: [+ workers_usr_display +]%, AD: [+ workers_ad_display +]%; FR: [+ workers_fr_display +]%, PDP + Misc. Right: [+ workers_pdp_display +]% [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ workers_sapd_display +]%  ?]
+
+White-Collar: SFIO: [+ new_middle_sfio_display +]%, PRRRS: [+ new_middle_prrrs_display +]%, PCF: [+ new_middle_pcf_display +]%, USR + Misc. Left: [+ new_middle_usr_display +]%, AD: [+ new_middle_ad_display +]%; FR: [+ new_middle_fr_display +]%, PDP + Misc. Right: [+ new_middle_pdp_display +]%, [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ new_middle_sapd_display +]%  ?]
+
+Petit Bourgeois: SFIO: [+ old_middle_sfio_display +]%, PRRRS: [+ old_middle_prrrs_display +]%, PCF: [+ old_middle_pcf_display +]%, USR + Misc. Left: [+ old_middle_usr_display +]%, AD: [+ old_middle_ad_display +]%; FR: [+ old_middle_fr_display +]%, PDP + Misc. Right: [+ old_middle_pdp_display +]%, [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ old_middle_sapd_display +]%  ?]
+
+Rural: SFIO: [+ rural_sfio_display +]%, PRRRS: [+ rural_prrrs_display +]%, PCF: [+ rural_pcf_display +]%, USR + Misc. Left: [+ rural_usr_display +]%, AD: [+ rural_ad_display +]%; FR: [+ rural_fr_display +]%, PDP + Misc. Right: [+ rural_pdp_display +]%, [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ rural_sapd_display +]%  ?]
+
+Unemployed: SFIO: [+ unemployed_sfio_display +]%, PRRRS: [+ unemployed_prrrs_display +]%, PCF: [+ unemployed_pcf_display +]%, USR + Misc. Left: [+ unemployed_usr_display +]%, AD: [+ unemployed_ad_display +]%; FR: [+ unemployed_fr_display +]%, PDP + Misc. Right: [+ unemployed_pdp_display +]%, [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ unemployed_sapd_display +]%  ?]
+
+Catholics: SFIO: [+ catholics_sfio_display +]%, PRRRS: [+ catholics_prrrs_display +]%, PCF: [+ catholics_pcf_display +]%, USR + Misc. Left: [+ catholics_usr_display +]%, AD: [+ catholics_ad_display +]%; FR: [+ catholics_fr_display +]%, PDP + Misc. Right: [+ catholics_pdp_display +]%, [? if {!return (((Q['sapd_formed'] || 0)) !== 0);!} : SAPD: [+ catholics_sapd_display +]%  ?]
+
+Support for the Republic: [+ pro_republic_disp +]%
