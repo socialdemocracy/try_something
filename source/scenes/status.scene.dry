@@ -80,7 +80,7 @@ Economic growth: [+ economic_growth_2 +]%
 
 Senate: [+ senate_relation : relationships +]
 
-Labor unrest: [+ labor_unrest : unrest +]
+Labor unrest: [+ labor_unrest : militancy +]
 
 = Internal Factions of the <span style="color: var(--sfio);">**SFIO**</span>
 
