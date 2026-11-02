@@ -25,11 +25,18 @@ const colourList = [{
         style: "color: var(--fr); font-weight: bold;",
 },
  {
-        word: "USR + Misc. Left",
+        word: "USR",
         style: "color: var(--usr); font-weight: bold;",
 },
  {
-        word: "PDP + Misc. Right",
+        word: "PDP",
+        style: "color: var(--pdp); font-weight: bold;",},
+ {
+        word: "Misc. Left",
+        style: "color: var(--usr); font-weight: bold;",
+},
+ {
+        word: "Misc. Right",
         style: "color: var(--pdp); font-weight: bold;",
     }
 ];
