@@ -73,3 +73,27 @@ Economic growth: [+ economic_growth_2 +]%
 = Party Leadership
 
 <span style="color: var(--pcf);">**PCF**</span>: <span class="ideology-tooltip-wrap"><span style="color: #700000;">Communism</span><span class="ideology-tooltip-tip"><span class="ideology-tooltip-title">**Communism**</span><img class="ideology-tooltip-image" src="img/communism.png"><span class="ideology-tooltip-description">A political ideology centered on democratic governance, social welfare, and equality.</span></span></span> ([+ pcf_leader +])
+
+= Relations with other groups
+
+<span style="color: #eba7a7;">**CGT**</span>: [+ cgt_relation : relationships +]
+
+Senate: [+ senate_relation : relationships +]
+
+Labor unrest: [+ labor_unrest : unrest +]
+
+= Internal Factions of the <span style="color: var(--sfio);">**SFIO**</span>
+
+{!<span class="tooltip-text" title="The Gauche Révolutionnaire, or Revolutionary Left, is an anti-Stalinist revolutionary leftist tendency with Trotskyist and anarchist influences that supports pacifism and the revolutionary restructuring of society.">Gauche Révolutionnaire</span>!} strength: [+ revolutionary_left_strength : strength +], dissent: [+ revolutionary_left_dissent : dissent +]
+
+{!<span class="tooltip-text" title="The Bataille Socialiste, or Socialist Battle, supports cooperation with the PCF, militant anti-fascism at home and abroad, and radical restructuring of society.">Bataille Socialiste</span>!} strength: [+ socialist_battle_strength : strength +], dissent: [+ socialist_battle_dissent : dissent +]
+
+{!<span class="tooltip-text" title="The Center consists of Center Marxists, with a position between reform and revolution between reform and revolution, as well as de fact reformists who have accomodated to the party's center.">Centre</span>!} strength: [+ center_strength : strength +], dissent: [+ center_dissent : dissent +]
+
+[? if pacifist_seen: <span class="tooltip-text" title="The Pacifists of the SFIO believe in avoiding war at all costs, even appeasement of Nazi Germany.">Pacifist</span> strength: [+ pacifist_strength : strength +], dissent: [+ pacifist_dissent : dissent +]  ?]
+
+= Policy Support in the <span style="color: var(--sfio);">**SFIO**</span>
+
+**Economic policies**: Classical economics [+ classical_economics_disp +]%, Stimulus [+ stimulus_disp +]%, Planism [+ planism_disp +]%, Socialization [+ socialization_disp +]%
+
+**Foreign policies**: Appeasement [+ appeasement_disp +]%, International Cooperation [+ international_cooperation_disp +]%, Confrontation [+ confrontation_disp +]%
