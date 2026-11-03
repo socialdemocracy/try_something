@@ -41,6 +41,7 @@ on-arrival: resources -= 1; usr_relation += 5*(1 - dissent)
 Many USR members are former SFIO members who were expelled or left due to their <span style="color: var(--usr);">reformism</span>.
 
 @right
+subtitle: Some politicians in the PDP and AD might be willing to atleast listen to our arguments.
 choose-if: resources >= 1
 unavailable-subtitle: Not enough resources.
 on-arrival: resources -= 1; pdp_relation += 5*(1 - dissent); ad_relation += 5*(1 - dissent)
@@ -48,6 +49,7 @@ on-arrival: resources -= 1; pdp_relation += 5*(1 - dissent); ad_relation += 5*(1
 Much of the <span style="color: var(--pdp);">ri</span><span style="color: var(--fr);">g</span><span style="color: var(--ard);">ht</span> wing of French politics consists of formally <span style="color: var(--ind);">independent</span> politicians who gather into loosely organized clubs of notables.
 
 @fr
+subtitle: The left will be furious.
 choose-if: resources >= 1 and reformist_strength >= 70
 unavailable-subtitle: [? if resources <= 1: Not enough resources. ?][? if reformist_strength <= 70: The other factions of the party can stop this. ?]
 on-arrival: resources -= 1; fr_relation += 5*(1 - dissent); socialist_battle_dissent += 6; revolutionary_left_dissent += 6
