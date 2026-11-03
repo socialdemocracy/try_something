@@ -1,5 +1,55 @@
-title: War Guilt Inquiry
+title: Inter-Party Relationships
 new-page: true
-is-card: true
+view-if: inter_party_relationships_timer <= 0
 tags: party_affairs
-max-visits: 1
+is-card: true
+on-arrival: month_actions += 1; inter_party_relationships_timer = 6;
+card-image: img/leaders.jpg
+
+= Inter-Party Relationships
+
+If the SFIO were to enter government, support from the parties of the Popular Front would be crucial. In addition, our electoral prospects depend heavily on inter-party relationships, as the trading of endorsements and dropouts in the run-off elections.
+
+- @prrrs: Strengthen our bonds with the PRRRS.
+- @pcf: Approach the PCF and improve our relations.
+- @prs: Improve our relation with the USR and the Misc. Left.
+- @right: Could we attempt to contact the <span style="color: var(--pdp);">ri</span><span style="color: var(--fr);">g</span><span style="color: var(--ard);">ht</span>? 
+- @fr: Perhaps we could attempt to contact the FR?
+
+@prrrs
+subtitle: The support of the <span style="color: var(--prrrs);">radicals</span> is crucial for the Popular Front to survive.
+choose-if: resources >= 1
+unavailable-subtitle: Not enough resources.
+on-arrival: resources -= 1; prrrs_relation += 5*(1 - dissent)
+
+The PRRRS often changes positions, participating in both <span style="color: var(--sfio);">left</span>-wing and <span style="color: var(--pdp);">ri</span><span style="color: var(--fr);">g</span><span style="color: var(--ard);">ht</span>-wing coalitions. It is crucial for us to keep them on our side.
+
+@pcf
+subtitle: The PCF has become more moderate in recent years, due to the "Popular Front" Policy, opening themselves to cooperation with us.
+choose-if: resources >= 1
+unavailable-subtitle: Not enough resources.
+on-arrival: resources -= 1; pcf_relation += 5*(1 - dissent)
+
+The PCF has become much more friendly with the SFIO after the formation of the Popular Front, and there are even talks regarding the reunification of the parties.
+
+@prs
+subtitle: The USR is mostly a party made up of <span style="color: var(--usr);">reformist</span> <span style="color: var(--sfio);">socialists</span>, previously from the PRRRS and SFIO.
+choose-if: resources >= 1
+unavailable-subtitle: Not enough resources.
+on-arrival: resources -= 1; usr_relation += 5*(1 - dissent)
+
+Many USR members are former SFIO members who were expelled or left due to their <span style="color: var(--usr);">reformism</span>.
+
+@right
+choose-if: resources >= 1
+unavailable-subtitle: Not enough resources.
+on-arrival: resources -= 1; pdp_relation += 5*(1 - dissent); ad_relation += 5*(1 - dissent)
+
+Much of the <span style="color: var(--pdp);">ri</span><span style="color: var(--fr);">g</span><span style="color: var(--ard);">ht</span> wing of French politics consists of formally <span style="color: var(--ind);">independent</span> politicians who gather into loosely organized clubs of notables.
+
+@fr
+choose-if: resources >= 1 and reformist_strength >= 70
+unavailable-subtitle: [? if resources <= 1: Not enough resources. ?][? if reformist_strength <= 70: The other factions of the party can stop this. ?]
+on-arrival: resources -= 1; fr_relation += 5*(1 - dissent); socialist_battle_dissent += 6; revolutionary_left_dissent += 6
+
+We have improved our  relations with the FR. The left-wing of our party has decried this move, seeing it as a betrayal of our <span style="color: var(--sfio);">socialist</span> principles and a move towards <span style="color: var(--usr);">reformism</span>.
