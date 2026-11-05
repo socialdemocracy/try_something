@@ -1,6 +1,6 @@
 title: Attack on Léon Blum
 subtitle: A right-wing mob has assaulted the socialist leader...
-view-if: year == 1936 && month == 2
+view-if: year == 1936 and month == 2
 on-arrival: popular_front_enthusiasm += 2; antifascism += 2
 tags: event
 new-page: true
