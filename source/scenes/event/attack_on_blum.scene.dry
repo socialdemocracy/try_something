@@ -1,0 +1,24 @@
+title: Blum exits the Chamber Of Deputies.
+subtitle: A normal session.
+view-if: year == 1936 and month == 2
+on-arrival: popular_front_enthusiasm += 2; antifascism += 2
+tags: event
+new-page: true
+max-visits: 1
+count-visits-max: 1
+
+= Exiting the Chamber..
+
+Blum has had a long day, defending the bill  for proportional representation to the Chamber Of Deputies. Eager to get home, Blum has accepted Georges Monnet's offer to drive him home to Quai Bourbon. There, he meets Mrs. Monnet, seemingly also coming along with them perhaps also heading home with Mr. Monnet. As the car drives past the Rue  de l' Université, into the Boulevard Saint-Germain, Monnet stops the car.
+
+Seemingly, Monnet has stopped the car to make way for the funeral procession of the nationalist aligned with the Royalists, Jacques Bainville, escorted by several hundreds Camelots du Roi, to pass.
+
+- @attack: "Blum!"
+
+@attack
+
+Hundreds of Camelots du Roi swarm around the car, with one of them grabbing the license plate to break the window, with glass splinters going everywhere. Mrs. Monnet attempts to defend Blum, but she herself is injured during the intense beatings taking place, as hundreds of militants throw things, break windows, and wreck the car. The police quickly make their way towards the site and find Blum almost beaten to death.
+
+They are inmediately taken for first aid to the Women's Catholic League, however Blum is a worse situation than Mrs. Monnet, partially due to his intense bleeding, and the police take him to a Hôtel-Dieu, where the bleeding seems to stop. He is later taken home.
+
+- @response: An inevitable response comes from both the Chamber Of Deputies and the Government.
