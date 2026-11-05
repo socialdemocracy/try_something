@@ -32,11 +32,11 @@ title: Against domestic <span style="color: var(--nsdap);">fascism</span> and th
 on-arrival: {!
 Q.antifascism += 4*(1-dissent);
 Q.popular_front_enthusiasm += 4*(1-dissent);
-if (Q.antifascism => 50) Q.workers_sfio += 3;
-if (Q.antifascism => 50) Q.new_middle_sfio += 3;
+if (Q.antifascism > 50) Q.workers_sfio += 3;
+if (Q.antifascism > 50) Q.new_middle_sfio += 3;
 !}
 
-Our rally is an outcry against the <span style="color: var(--nsdap);">far</span>-<span style="color: var(--ppf);">right</span>, always a favorite theme of Popular Front rallies. [? if antifascism => 50:  Our consistent support of antifascism has rallied the workers and middle class to our side. ?]
+Our rally is an outcry against the <span style="color: var(--nsdap);">far</span>-<span style="color: var(--ppf);">right</span>, always a favorite theme of Popular Front rallies. [? if antifascism > 50:  Our consistent support of antifascism has rallied the workers and middle class to our side. ?]
 
 @antifa_2
 title: Against <span style="color: var(--nsdap);">fascism</span>, at home and abroad!
@@ -45,8 +45,8 @@ Q.antifascism += 3*(1-dissent);
 Q.popular_front_enthusiasm += 3*(1-dissent);
 Q.confrontation_support += 5*(1-dissent);
 Q.pacifist_dissent + 5*(1-dissent);
-if (Q.antifascism => 50) Q.workers_sfio += 3;
-if (Q.antifascism => 50) Q.new_middle_sfio += 3;
+if (Q.antifascism > 50) Q.workers_sfio += 3;
+if (Q.antifascism > 50) Q.new_middle_sfio += 3;
 !}
 
 Our rally is just as much against the <span style="color: var(--nsdap);">fascist</span> regimes in <span style="color: var(--nsdap);">Germany</span> and <span style="color: #008C45;">Italy</span> as it is against the <span style="color: var(--nsdap);">far</span>-<span style="color: var(--ppf);">right</span> movements in <span style="color: #000091;">France</span>.
